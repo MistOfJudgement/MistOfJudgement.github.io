@@ -1,0 +1,33 @@
+.cards {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .cards > li {
+        /* display: ; */
+        border: 2px black solid;
+        padding: 4px;
+        text-align: center;
+        list-style-type: none;
+        flex: 1 1 content;
+        width: max-content;
+        min-width: 25%;
+      }
+      .cards > li > ul {
+        text-align: left;
+      }
+      /* have iframe match card width and keep aspect ratio */
+      .youtube-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+      }
+      .youtube-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      #projects {
+        text-align: center;
+      }
