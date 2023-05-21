@@ -11,16 +11,29 @@
       .cards > li {
         /* display: ; */
         border: 2px black solid;
-        padding: 0 0 4px 4px;
+        padding: 4px;
         text-align: center;
         list-style-type: none;
         flex: 1 1 content;
         width: max-content;
+        min-width: 25%;
       }
       .cards > li > ul {
         text-align: left;
       }
-
+      /* have iframe match card width and keep aspect ratio */
+      .youtube-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+      }
+      .youtube-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
     </style>
 </head>
 <body>
@@ -68,8 +81,10 @@
           <li>Monogame, C#, OpenCV, C++</li>
           <li><a href="https://github.com/MistOfJudgement/BadAppleCeleste">GitHub Repo</a></li>
           <li><a href="https://www.youtube.com/watch?v=fIX6B69wnek">Video Demo</a></li>
-          <iframe src="https://www.youtube.com/embed/fIX6B69wnek" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </ul>
+        <div class="youtube-container">
+          <iframe src="https://www.youtube.com/embed/fIX6B69wnek" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
       </li>
       <li>
         <h4>Bad Apple in a Terminal</h4>
@@ -83,27 +98,32 @@
         <ul>
           <li>For a high school analog electronics class</li>
           <li><a href="https://www.youtube.com/watch?v=t7b9YMaFg1c">Video Demo</a></li>
-          <iframe src="https://www.youtube.com/embed/t7b9YMaFg1c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </ul>
+        <div class="youtube-container">
+          <iframe src="https://www.youtube.com/embed/t7b9YMaFg1c" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
       </li>
       <li>
-        <h4>Web Dev Project - Partial recreation of Keep Talking and Nobody Explodes</h4>
+        <h4>Web Dev Project</h4>
         <ul>
+          <li>Partial recreation of Keep Talking and Nobody Explodes</li>
           <li>HTML, CSS, JavaScript, Custom HTML Elements, SVG</li>
           <li><a href="./bombs.html">Play here</a></li>
           <li><a href="https://github.com/MistOfJudgement/MistOfJudgement.github.io/blob/main/bombs.html">GitHub Repo</a></li>
         </ul>
       </li>
       <li>
-        <h4>Android Development - Partial recreation of specfic modules from Keep Talking and Nobody Explodes</h4>
+        <h4>Android Development</h4>
         <ul>
+          <li>Partial recreation of specfic modules from Keep Talking and Nobody Explodes</li>
           <li>Android Studio, Java</li>
           <li><a href="https://github.com/MistOfJudgement/KTANE">Github Repo</a></li>
         </ul>
       </li>
       <li>
-        <h4>High School Senior Research - Teaching an AI to play like a person</h4>
+        <h4>High School Senior Research</h4>
         <ul>
+          <li>Teaching an AI to play like a person</li>
           <li>Python, Tensorflow</li>
           <li>Currently locating files</li>
         </ul>
@@ -114,8 +134,10 @@
           <li>Uses an Arduino Micro and piezoelectric sensors</li>
           <li>Code adapted from <a href="https://github.com/evankale/ArduinoMidiDrums">this other repository</a></li>
           <li><a href="https://www.youtube.com/watch?v=G3fzKPomjSg">Video Demo</a></li>
-          <iframe  src="https://www.youtube.com/embed/G3fzKPomjSg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </ul>
+        <div class="youtube-container">
+          <iframe  src="https://www.youtube.com/embed/G3fzKPomjSg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
       </li>
       <li>
         <h4>Python Text to Speech</h4>
