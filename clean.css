@@ -16,12 +16,12 @@
         text-align: left;
       }
       /* have iframe match card width and keep aspect ratio */
-      .youtube-container {
+      .container {
         position: relative;
         width: 100%;
         padding-bottom: 56.25%;
       }
-      .youtube-container iframe {
+      .container iframe {
         position: absolute;
         top: 0;
         left: 0;
