@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Travel Cluster</title>
+  <link rel="stylesheet" href="./clean.css">
+</head>
+
+<body>
+    <nav>
+        <a href="../index.html">Back to Home Page</a>
+    </nav>
+    <h1>Travel Cluster</h1>
+    <h2>Objective</h2>
+    <p>I've been planning an international trip for a while and as part of that,
+        there is a spreadsheet of locations that I might visit. With this structured
+        data, I thought it would be an interesting idea to group these locations into
+        clusters. This would mean tagging each location with a latitude and longitude 
+        which is an ideal task for automation.
+    </p>
+  <div id="footer">
+    <button onclick="toggleCSS()">Toggle CSS</button>
+  </div>
+  <script>
+
+    function disableCSSStyle() {
+      document.styleSheets[0].disabled = true;
+    }
+    function enableCSSStyle() {
+      document.styleSheets[0].disabled = false;
+    }
+    function toggleCSS() {
+      if (document.styleSheets[0].disabled) {
+        enableCSSStyle();
+      } else {
+        disableCSSStyle();
+      }
+    }
+  </script>
+</body>
+
+</html>
