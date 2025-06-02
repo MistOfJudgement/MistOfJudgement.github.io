@@ -1,0 +1,19 @@
+{
+    "quick_bio": "Just a CS student who enjoys overcomplicating things.",
+    "projects": [
+        {
+            "name": "Project 1",
+            "info": [
+                "This is a description of project 1.",
+                "This is a second line of description."
+            ],
+            "links": {
+                "!github": ""
+            }
+        },
+        {
+            "name": "Project 2",
+            "description": "This is a description of project 2."
+        }
+    ]
+}

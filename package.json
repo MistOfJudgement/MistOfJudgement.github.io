@@ -1,0 +1,16 @@
+{
+  "name": "mistofjudgement.github.io",
+  "version": "1.0.0",
+  "description": "Personal Website",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "node index.js"
+  },
+  "author": "MistOfJudgement",
+  "license": "ISC",
+  "dependencies": {
+    "i18next": "^24.2.1",
+    "mistofjudgement.github.io": "file:"
+  }
+}

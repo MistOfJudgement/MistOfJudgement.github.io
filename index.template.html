@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tushar Rangaswamy</title>
+  <link rel="stylesheet" href="./clean.css">
+</head>
+
+<body>
+  <header>
+    <h1>Tushar Rangaswamy</h1>
+    <div id="links">
+      <a href="https://github.com/MistOfJudgement">{{github}}</a>
+      <a href="https://www.youtube.com/@tusharrangaswamy5910">{{youtube}}</a>
+      <a href="mailto:tusharrangaswamy@gmail.com">{{email}}</a>
+      <a href="https://mistofjudgement.itch.io/">{{itch_io}}</a>
+    </div>
+    <p>{{quick_bio}}</p>
+  </header>
+  <section id="projects" class="full-width">
+    <h2>{{projects_title}}</h2>
+    <p>{{projects_description}}</p>
+    
+    <ul class="cards">
+    {{#each projects}}
+      <li>
+        <h4>{{name}}</h4>
+        <ul>
+          {{#each info}}
+            <li>{{this}}</li>
+          {{/each}}
+          {{#each links}}
+            <li><a href="{{href}}">{{text}}</a></li>
+          {{/each}}
+          {{#if iframe}}
+            <div class="container">
+              <iframe src="{{iframe}}" title="{{name}}">
+            </div>
+          {{/if}}
+          {{#if video}}
+            <div class="container">
+              <iframe src="{{video}}" title="YouTube video player" frameborder="0" allow="web-share" allowfullscreen></iframe>
+            </div>
+          {{/if}}
+        </ul>
+      </li>
+    {{/each}}
+  </section>
+  <div id="footer">
+    <button onclick="toggleCSS()">Toggle CSS</button>
+  </div>
+  <script>
+
+    function disableCSSStyle() {
+      document.styleSheets[0].disabled = true;
+    }
+    function enableCSSStyle() {
+      document.styleSheets[0].disabled = false;
+    }
+    function toggleCSS() {
+      if (document.styleSheets[0].disabled) {
+        enableCSSStyle();
+      } else {
+        disableCSSStyle();
+      }
+    }
+  </script>
+</body>
+
+</html>
