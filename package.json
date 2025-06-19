@@ -1,0 +1,11 @@
+{
+  "name": "mistofjudgment-github",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
