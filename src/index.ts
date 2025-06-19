@@ -1,0 +1,33 @@
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { buildPage } from './pages/index.blueprint';
+const outputDir = 'build';
+
+const testPage = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Page</title>
+</head>
+`
+function setupBuildDirectory() {
+    // Check if the output directory exists, if not, create it
+    if (!existsSync(outputDir)) {
+        console.log(`Creating directory: ${outputDir}`);
+        mkdirSync(outputDir, { recursive: true });
+    }
+}
+
+function writePage(filepath: string, content: string) {
+    const fullPath = `${outputDir}/${filepath}`;
+    writeFileSync(fullPath, content, 'utf8');
+    console.log(`Page written to: ${fullPath}`);
+}
+
+function writeIndex() {
+    const index = buildPage();
+    writePage('index.html', index);
+}
+setupBuildDirectory();
+writePage('test.html', testPage);
+writeIndex();
