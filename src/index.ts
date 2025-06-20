@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 import { buildPage } from './pages/index.blueprint';
 const outputDir = 'build';
 
@@ -31,3 +31,16 @@ function writeIndex() {
 setupBuildDirectory();
 writePage('test.html', testPage);
 writeIndex();
+
+function copyStatic() {
+    // clear static folder if exists
+    const staticDir = 'static';
+    const destDir = `${outputDir}/static`;
+    if (existsSync(destDir)) {
+        rmSync(destDir, { recursive: true, force: true });
+    }
+    mkdirSync(destDir, {recursive: true})
+    cpSync(staticDir, destDir, { recursive: true });
+}
+
+copyStatic()

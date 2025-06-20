@@ -27,7 +27,7 @@ export function buildPage(): string {
 <head>
   <meta charset="UTF-8">
   <title>${indexData.name}</title>
-  <link rel="stylesheet" href="./clean.css">
+  <link rel="stylesheet" href="./static/clean.css">
 </head>
 
 <body>
