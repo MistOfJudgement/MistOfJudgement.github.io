@@ -1,5 +1,8 @@
+import { Blueprint } from "../architect"
+import { Link, LinkProps } from "../components/link.blueprint"
+import { Project, ProjectProps } from "../components/project.blueprint"
 
-const indexData = {
+export const indexData = {
     name: "Tushar Rangaswamy",
     description: "I am a Computer Scientist currently studying at George Mason University. No concentration, no specialty, learning as much as I can.",
     links: [
@@ -20,40 +23,43 @@ const indexData = {
     projectsHeader: "Projects",
     toggleCSSLabel: "Toggle CSS",
 }
-export function buildPage(): string {
+
+interface IndexProps {
+  name: string,
+  description: string,
+  projectsHeader: string,
+  toggleCSSLabel: string,
+  projects: ProjectProps[],
+  links: LinkProps[]
+} 
+
+export const Index : Blueprint = (props: IndexProps) => {
     return `<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>${indexData.name}</title>
+  <title>${props.name}</title>
   <link rel="stylesheet" href="./static/clean.css">
 </head>
 
 <body>
   <header>
-    <h1>${indexData.name}</h1>
+    <h1>${props.name}</h1>
     <div id="links">
-      ${indexData.links.map(link => `<a href="${link.url}">${link.name}</a>`).join("\n\t\t\t")}
+      ${props.links.map(linkProps => Link(linkProps)).join("\n\t\t\t")}
     </div>
-    <p>${indexData.description}</p>
+    <p>${props.description}</p>
   </header>
   <section id="projects" class="full-width">
-    <h2>${indexData.projectsHeader}</h2>
+    <h2>${props.projectsHeader}</h2>
     <ul class="cards">
-        ${indexData.projects.map(project => `
-      <li>
-        <h4>${project.title}</h4>
-        <ul>
-          ${project.descriptions.map(desc => `<li>${desc}</li>`).join("\n\t\t\t\t\t")}
-          </ul>
-        </li>
-      `).join("\n\t\t\t")
+        ${props.projects.map(project => Project(project)).join("\n\t\t\t")
         }
     </ul>
   </section>
   <div id="footer">
-    <button onclick="toggleCSS()">${indexData.toggleCSSLabel}</button>
+    <button onclick="toggleCSS()">${props.toggleCSSLabel}</button>
   </div>
   <script>
 

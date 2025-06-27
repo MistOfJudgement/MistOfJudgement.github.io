@@ -1,5 +1,5 @@
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
-import { buildPage } from './pages/index.blueprint';
+import { Index, indexData } from './pages/index.blueprint';
 const outputDir = 'build';
 
 const testPage = `
@@ -25,7 +25,7 @@ function writePage(filepath: string, content: string) {
 }
 
 function writeIndex() {
-    const index = buildPage();
+    const index = Index(indexData)
     writePage('index.html', index);
 }
 setupBuildDirectory();
