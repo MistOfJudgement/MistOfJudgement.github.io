@@ -1,15 +1,15 @@
-import { Blueprint } from "../architect"
+import { Blueprint, fromList } from "../architect"
 import { Link, LinkProps } from "../components/link.blueprint"
 import { Project, ProjectProps } from "../components/project.blueprint"
 
-export const indexData = {
+export const indexData: IndexProps = {
     name: "Tushar Rangaswamy",
     description: "I am a Computer Scientist currently studying at George Mason University. No concentration, no specialty, learning as much as I can.",
     links: [
-        { name: "GitHub", url: "https://github.com/MistOfJudgement" },
-        { name: "Youtube", url: "https://www.youtube.com/@tusharrangaswamy5910" },
-        { name: "Email", url: "mailto:tusharrangaswamy@gmai.com" },
-        { name: "Itch.io", url: "https://mistofjudgement.itch.io/" }
+        { label: "GitHub", href: "https://github.com/MistOfJudgement" },
+        { label: "Youtube", href: "https://www.youtube.com/@tusharrangaswamy5910" },
+        { label: "Email", href: "mailto:tusharrangaswamy@gmai.com" },
+        { label: "Itch.io", href: "https://mistofjudgement.itch.io/" }
     ],
     projects: [
         {
@@ -47,15 +47,14 @@ export const Index : Blueprint = (props: IndexProps) => {
   <header>
     <h1>${props.name}</h1>
     <div id="links">
-      ${props.links.map(linkProps => Link(linkProps)).join("\n\t\t\t")}
+      ${fromList(props.links, Link)}
     </div>
     <p>${props.description}</p>
   </header>
   <section id="projects" class="full-width">
     <h2>${props.projectsHeader}</h2>
     <ul class="cards">
-        ${props.projects.map(project => Project(project)).join("\n\t\t\t")
-        }
+        ${fromList(props.projects, Project)}
     </ul>
   </section>
   <div id="footer">

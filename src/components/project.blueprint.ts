@@ -1,4 +1,4 @@
-import { Blueprint } from "../architect"
+import { Blueprint, fromList } from "../architect"
 
 export interface ProjectProps {
     title: string,
@@ -10,7 +10,7 @@ export const Project: Blueprint = (props: ProjectProps) => {
 <li>
     <h4>${props.title}</h4>
     <ul>
-        ${props.descriptions.map(desc => `<li>${desc}</li>`)}
+        ${fromList(props.descriptions, desc => `<li>${desc}</li>`)}
     </ul>
 </li>`
 }

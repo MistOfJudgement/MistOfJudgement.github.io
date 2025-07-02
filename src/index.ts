@@ -34,7 +34,7 @@ writeIndex();
 
 function copyStatic() {
     // clear static folder if exists
-    const staticDir = 'static';
+    const staticDir = 'src/static';
     const destDir = `${outputDir}/static`;
     if (existsSync(destDir)) {
         rmSync(destDir, { recursive: true, force: true });
