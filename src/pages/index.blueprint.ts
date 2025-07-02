@@ -18,6 +18,9 @@ export const indexData: IndexProps = {
                 "HTML, CSS, JavaScript",
                 "Hosted on GitHub Pages",
             ],
+            iframes: [
+              {source: ".", title: "This page itself"}
+            ]
         },
     ],
     projectsHeader: "Projects",
