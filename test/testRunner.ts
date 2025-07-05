@@ -1,3 +1,4 @@
+import { AssertionError } from "./assert"
 import { formatTestSuite } from "./formatter.test"
 
 export type Suite = { name: string, tests: ((() => void) & {name:string})[]}
@@ -11,8 +12,8 @@ function runSuite(suite: Suite) {
             console.info(`Starting ${test.name}`)
             test()
             return {name: test.name, result: true}
-        } catch (e) {
-            console.error(`${test.name} failed with ${e}`)
+        } catch (e: unknown) {
+            console.error(`${test.name} failed with ${(e as AssertionError).stack}`)
             return {name: test.name, result: false, error: e}
         } finally {
             console.info(`Finished ${test.name}`)

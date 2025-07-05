@@ -41,9 +41,9 @@ export const Index : Blueprint = (props: IndexProps) => {
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>${props.name}</title>
-  <link rel="stylesheet" href="./static/clean.css">
+  <link rel="stylesheet" href="./static/clean.css" />
 </head>
 
 <body>

@@ -1,5 +1,6 @@
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'fs';
 import { Index, indexData } from './pages/index.blueprint';
+import { format } from './formatter';
 const outputDir = 'build';
 
 const testPage = `
@@ -20,7 +21,7 @@ function setupBuildDirectory() {
 
 function writePage(filepath: string, content: string) {
     const fullPath = `${outputDir}/${filepath}`;
-    writeFileSync(fullPath, content, 'utf8');
+    writeFileSync(fullPath, format(content), 'utf8');
     console.log(`Page written to: ${fullPath}`);
 }
 
@@ -41,10 +42,6 @@ function copyStatic() {
     }
     mkdirSync(destDir, {recursive: true})
     cpSync(staticDir, destDir, { recursive: true });
-}
-
-function formatHTML(data: string): string {
-    return data
 }
 
 copyStatic()

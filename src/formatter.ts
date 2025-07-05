@@ -5,12 +5,13 @@ export function format(data: string): string {
     let indent = 0
     const indentChar = "\t"
     output = lines.map(line => {
-        const closeTags = [...line.matchAll(/<\/\w+[^<>/]*?>/g)].length
-        indent -= closeTags
-        const tmp = indentChar.repeat(indent) + line.trimStart()
-        const openTags = [...line.matchAll(/<\w+[^/<>]*?>/g)].length
-        indent += openTags
-        console.log(`matched ${openTags} openTags and ${closeTags} closeTags. indent is now ${indent}`)
+        const closeTags = [...line.matchAll(/<\/\w+[^<>]*?>/g)]
+        const openTags = [...line.matchAll(/<\w+[^<>]*?>/g)].filter(tag => !(tag[0].endsWith("/>")))
+    
+            const tmp = indentChar.repeat(indent - (((closeTags?.[0]?.index ?? 99) < (openTags?.[0]?.index ?? 99)) ? closeTags.length : 0)) + line.trimStart()
+
+        indent += openTags.length - closeTags.length
+        // console.log(`matched ${openTags} openTags and ${closeTags} closeTags. indent is now ${indent}`)
         // console.log(tmp)
         return tmp
     }).join("\n")

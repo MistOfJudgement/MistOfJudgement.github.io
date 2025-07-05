@@ -81,6 +81,29 @@ function formatSingleTags() {
 	assertEqual(actual, expected)
 }
 
+function formatSingleLineOpenClose() {
+	assertEqual(
+		format(`<solo>test</solo>
+firstLevel`),
+		`<solo>test</solo>
+firstLevel`
+	)
+}
+
+function formatLinks() {
+	assertEqual(
+		format(
+			`<outer>
+<a href="something://else> linke </a>
+extra
+</outer>`
+		),
+		`<outer>
+	<a href="something://else> linke </a>
+	extra
+</outer>`
+	)
+}
 export const formatTestSuite: Suite = {
     name: "formatTestSuite",
     tests: [
@@ -92,5 +115,7 @@ export const formatTestSuite: Suite = {
 		formatSiblingTags,
 		formatNestedTags,
 		formatSingleTags,
+		formatSingleLineOpenClose,
+		formatLinks
     ]
 }

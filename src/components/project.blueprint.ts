@@ -10,7 +10,7 @@ export interface ProjectProps {
 
 interface IFrameProps {source: string, title: string, props?: string[]}
 const IFrame: Blueprint =  (props: IFrameProps) :string => {
-    return `        <div class="container">
+    return `<div class="container">
 <iframe source="${props.source}" title="${props.title}" ${props.props?.join(" ") ?? ""}></iframe>
 </div>`
 }
