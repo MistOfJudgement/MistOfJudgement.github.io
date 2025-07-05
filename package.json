@@ -4,7 +4,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "test": "ts-node test/testRunner.ts"
   },
   "devDependencies": {
     "@types/node": "^24.0.3",

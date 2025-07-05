@@ -43,4 +43,8 @@ function copyStatic() {
     cpSync(staticDir, destDir, { recursive: true });
 }
 
+function formatHTML(data: string): string {
+    return data
+}
+
 copyStatic()
