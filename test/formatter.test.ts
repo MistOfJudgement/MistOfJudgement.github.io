@@ -30,6 +30,56 @@ function formatChildDataIsIndented() {
     assertEqual(actual, expected)
 }
 
+function formatSiblingTags() {
+    const actual = format(
+        `<tag1>
+        one
+        </tag1>
+        <tag2>
+        two
+        </tag2>`
+    )
+    const expected =
+`<tag1>
+\tone
+</tag1>
+<tag2>
+\ttwo
+</tag2>`
+    assertEqual(actual, expected)
+}
+
+function formatNestedTags() {
+	const actual = format(
+		`<outer>
+		<inner>
+		test
+		</inner>
+		</outer>`
+	)
+	const expected =
+`<outer>
+	<inner>
+		test
+	</inner>
+</outer>`
+	assertEqual(actual, expected)
+}
+
+function formatSingleTags() {
+	const actual = format(
+		`<outer>
+		<single/>
+		test
+		</outer>`
+	)
+	const expected = 
+`<outer>
+	<single/>
+	test
+</outer>`
+	assertEqual(actual, expected)
+}
 
 export const formatTestSuite: Suite = {
     name: "formatTestSuite",
@@ -38,6 +88,9 @@ export const formatTestSuite: Suite = {
         formatPlainTextReturnsText,
         formatOpenTagReturnsSelf,
         formatTrimWhitespace,
-        formatChildDataIsIndented
+        formatChildDataIsIndented,
+		formatSiblingTags,
+		formatNestedTags,
+		formatSingleTags,
     ]
 }
