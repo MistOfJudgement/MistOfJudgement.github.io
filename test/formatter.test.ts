@@ -22,12 +22,22 @@ function formatTrimWhitespace() {
     assertEqual(format("     test"), "test")
 }
 
+function formatChildDataIsIndented() {
+    const actual = format(`        <tag>
+        child
+        </tag>`)
+    const expected =`<tag>\n\tchild\n</tag>`
+    assertEqual(actual, expected)
+}
+
+
 export const formatTestSuite: Suite = {
     name: "formatTestSuite",
     tests: [
         formatEmptyStringReturnsEmptyString,
         formatPlainTextReturnsText,
         formatOpenTagReturnsSelf,
-        formatTrimWhitespace
+        formatTrimWhitespace,
+        formatChildDataIsIndented
     ]
 }

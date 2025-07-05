@@ -8,14 +8,14 @@ function runSuite(suite: Suite) {
     console.info(`Running Suite ${suite.name}`)
     const results = suite.tests.map((test) => {
         try {
-            // console.info(`Starting ${test.name}`)
+            console.info(`Starting ${test.name}`)
             test()
             return {name: test.name, result: true}
         } catch (e) {
             console.error(`${test.name} failed with ${e}`)
             return {name: test.name, result: false, error: e}
         } finally {
-            // console.info(`Finished ${test.name}`)
+            console.info(`Finished ${test.name}`)
         }
     })
     const numFailed = results.filter(e => e.result === false).length
