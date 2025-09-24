@@ -8,16 +8,17 @@ export interface ProjectProps {
     iframes?: IFrameProps[]
 }
 
-interface IFrameProps {source: string, title: string, props?: string[]}
-const IFrame: Blueprint =  (props: IFrameProps) :string => {
+interface IFrameProps {src: string, title: string, props?: string[]}
+const IFrame: Blueprint<IFrameProps> =  (props) :string => {
     return `<div class="container">
-<iframe source="${props.source}" title="${props.title}" ${props.props?.join(" ") ?? ""}></iframe>
+<iframe src="${props.src}" title="${props.title}" ${props.props?.join(" ") ?? ""}></iframe>
 </div>`
 }
-export const Project: Blueprint = (props: ProjectProps) => {
+export const Project: Blueprint<ProjectProps> = (props) => {
     
-    const listElements: string[] = [props.descriptions, props.links?.map(Link), props.iframes?.map(IFrame)]
-        .reduce((a, c) => (c == undefined ? a : [...a!, ...c]), [])!.filter(e => e !== undefined)
+    const listElements = [props.descriptions, props.links?.map(Link), props.iframes?.map(IFrame)]
+        .filter(e => e !== undefined)
+        .reduce((a, c) => ([...a, ...c]), [])
     return `
 <li>
     <h4>${props.title}</h4>

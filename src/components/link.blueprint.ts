@@ -5,6 +5,6 @@ export interface LinkProps {
     label: string
 }
 
-export const Link : Blueprint = (props: LinkProps) => {
+export const Link : Blueprint<LinkProps> = (props) => {
     return `<a href="${props.href}">${props.label}</a>`
 }

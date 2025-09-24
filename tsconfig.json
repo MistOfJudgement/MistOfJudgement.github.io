@@ -9,9 +9,11 @@
         "rootDir": "./",
         "noImplicitAny": true
     },
+
     "include": [
         "src/**/*",
-        "test/**/*"
+        "test/**/*",
+        "eslint.config.mts"
     ],
     "exclude": [
         "node_modules",

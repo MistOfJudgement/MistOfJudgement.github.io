@@ -19,7 +19,19 @@ export const indexData: IndexProps = {
                 "Hosted on GitHub Pages",
             ],
             iframes: [
-              {source: ".", title: "This page itself"}
+              {src: "./index.html", title: "This page itself"}
+            ]
+      },
+      {
+            title: "Bad Apple in Terminal",
+            descriptions: [
+                "Node.js",
+            ],
+        links: [
+          {
+            label: "Github Repo",
+            href: "https://github.com/MistOfJudgement/BadAppleTerminal"
+          }
             ]
         },
     ],
@@ -36,7 +48,7 @@ interface IndexProps {
   links: LinkProps[]
 } 
 
-export const Index : Blueprint = (props: IndexProps) => {
+export const Index : Blueprint<IndexProps> = (props) => {
     return `<!DOCTYPE html>
 <html lang="en">
 
