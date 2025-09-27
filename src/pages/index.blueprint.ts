@@ -1,55 +1,49 @@
-import { Blueprint, fromList } from "../architect"
-import { Link, LinkProps } from "../components/link.blueprint"
-import { Project, ProjectProps } from "../components/project.blueprint"
+import { Blueprint, fromList } from "../architect";
+import { Link, LinkProps } from "../components/link.blueprint";
+import { Project, ProjectProps } from "../components/project.blueprint";
 
 export const indexData: IndexProps = {
-    name: "Tushar Rangaswamy",
-    description: "I am a Computer Scientist currently studying at George Mason University. No concentration, no specialty, learning as much as I can.",
-    links: [
-        { label: "GitHub", href: "https://github.com/MistOfJudgement" },
-        { label: "Youtube", href: "https://www.youtube.com/@tusharrangaswamy5910" },
-        { label: "Email", href: "mailto:tusharrangaswamy@gmai.com" },
-        { label: "Itch.io", href: "https://mistofjudgement.itch.io/" }
-    ],
-    projects: [
-        {
-            title: "Personal Website",
-            descriptions: [
-                "HTML, CSS, JavaScript",
-                "Hosted on GitHub Pages",
-            ],
-            iframes: [
-              {src: "./index.html", title: "This page itself"}
-            ]
-      },
-      {
-            title: "Bad Apple in Terminal",
-            descriptions: [
-                "Node.js",
-            ],
-        links: [
-          {
-            label: "Github Repo",
-            href: "https://github.com/MistOfJudgement/BadAppleTerminal"
-          }
-            ]
-        },
-    ],
-    projectsHeader: "Projects",
-    toggleCSSLabel: "Toggle CSS",
-}
+	name: "Tushar Rangaswamy",
+	description:
+		"I am a Computer Scientist currently studying at George Mason University. No concentration, no specialty, learning as much as I can.",
+	links: [
+		{ label: "GitHub", href: "https://github.com/MistOfJudgement" },
+		{ label: "Youtube", href: "https://www.youtube.com/@tusharrangaswamy5910" },
+		{ label: "Email", href: "mailto:tusharrangaswamy@gmai.com" },
+		{ label: "Itch.io", href: "https://mistofjudgement.itch.io/" },
+	],
+	projects: [
+		{
+			title: "Personal Website",
+			descriptions: ["HTML, CSS, JavaScript", "Hosted on GitHub Pages"],
+			iframes: [{ src: "./index.html", title: "This page itself" }],
+		},
+		{
+			title: "Bad Apple in Terminal",
+			descriptions: ["Node.js"],
+			links: [
+				{
+					label: "Github Repo",
+					href: "https://github.com/MistOfJudgement/BadAppleTerminal",
+				},
+			],
+		},
+	],
+	projectsHeader: "Projects",
+	toggleCSSLabel: "Toggle CSS",
+};
 
 interface IndexProps {
-  name: string,
-  description: string,
-  projectsHeader: string,
-  toggleCSSLabel: string,
-  projects: ProjectProps[],
-  links: LinkProps[]
-} 
+	name: string;
+	description: string;
+	projectsHeader: string;
+	toggleCSSLabel: string;
+	projects: ProjectProps[];
+	links: LinkProps[];
+}
 
-export const Index : Blueprint<IndexProps> = (props) => {
-    return `<!DOCTYPE html>
+export const Index: Blueprint<IndexProps> = (props) => {
+	return `<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -94,5 +88,5 @@ export const Index : Blueprint<IndexProps> = (props) => {
   </script>
 </body>
 
-</html>`
-}
+</html>`;
+};

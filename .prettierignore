@@ -1,0 +1,5 @@
+build/
+node_modules/
+index.html
+bombs.html
+package-lock.json
