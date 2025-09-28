@@ -93,26 +93,25 @@ stylesheets.forEach(sheet => {
 `;
 };
 
-
 // Export complete page configuration
 export const WebsitePage: PageConfig = {
 	filename: "website.html",
 	title: "The Personal Project Page",
-  contentBuilder: WebsiteContent,
-  contentData: {},
-  navLabel: "Website",
-  navOrder: "a-website",
-  navCategory: "Projects",
-    projectInfo: {
-    title: "Personal Website",
-    descriptions: ["HTML, CSS, JavaScript", "Hosted on GitHub Pages"],
-    links: [
-      { href: "https://github.com/MistOfJudgement/MistOfJudgement.github.io", label: "Github Repo" }
-    ],
-    iframes: [
-      { src: "./index.html", title: "Personal Website" }
-    ],
-    projectPageHref: "./website.html"
-  }
+	contentBuilder: WebsiteContent,
+	contentData: {},
+	navLabel: "Website",
+	navOrder: "a-website",
+	navCategory: "Projects",
+	projectInfo: {
+		title: "Personal Website",
+		descriptions: ["HTML, CSS, JavaScript", "Hosted on GitHub Pages"],
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/MistOfJudgement.github.io",
+				label: "Github Repo",
+			},
+		],
+		iframes: [{ src: "./index.html", title: "Personal Website" }],
+		projectPageHref: "./website.html",
+	},
 };
-

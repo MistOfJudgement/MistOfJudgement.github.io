@@ -68,7 +68,7 @@ const BadAppleContent: Blueprint<BadAppleData> = () => {
 
 const badAppleData: BadAppleData = {
 	githubUrl: "https://github.com/MistOfJudgement/BadAppleTerminal",
-	homeUrl: "./index.html"
+	homeUrl: "./index.html",
 };
 
 // Export complete page configuration
@@ -84,10 +84,13 @@ export const BadApplePage = {
 		title: "Bad Apple in Terminal",
 		descriptions: ["Node.js", "Terminal graphics", "Video-to-ASCII conversion"],
 		links: [
-			{ href: "https://github.com/MistOfJudgement/BadAppleTerminal", label: "GitHub Repo" },
+			{
+				href: "https://github.com/MistOfJudgement/BadAppleTerminal",
+				label: "GitHub Repo",
+			},
 		],
-		projectPageHref: "./bad_apple_terminal.html"
-	}
+		projectPageHref: "./bad_apple_terminal.html",
+	},
 };
 
 // Keep old export for backward compatibility

@@ -1,12 +1,12 @@
 import { Blueprint, PageConfig } from "../../architect";
 
 interface BadAppleCelesteData {
-    githubUrl: string;
-    youtubeUrl: string;
+	githubUrl: string;
+	youtubeUrl: string;
 }
 
 const BadAppleCelesteContent: Blueprint<BadAppleCelesteData> = () => {
-    return `
+	return `
     <h2>Problem & Purpose</h2>
     <p>I wanted to make a Celeste Mod and I love the Bad Apple recreations.</p>
     
@@ -27,31 +27,34 @@ const BadAppleCelesteContent: Blueprint<BadAppleCelesteData> = () => {
 };
 
 const badAppleCelesteData: BadAppleCelesteData = {
-    githubUrl: "https://github.com/MistOfJudgement/BadAppleCeleste",
-    youtubeUrl: "https://www.youtube.com/watch?v=fIX6B69wnek"
+	githubUrl: "https://github.com/MistOfJudgement/BadAppleCeleste",
+	youtubeUrl: "https://www.youtube.com/watch?v=fIX6B69wnek",
 };
 
 // Export complete page configuration
 export const BadAppleCelestePage: PageConfig<BadAppleCelesteData> = {
-    filename: "bad_apple_celeste.html",
-    title: "Bad Apple in Celeste",
-    contentBuilder: BadAppleCelesteContent,
-    contentData: badAppleCelesteData,
-    navLabel: "Bad Apple Celeste",
-    navOrder: "c-badapple-celeste",
-    navCategory: "Projects",
-    projectInfo: {
-        title: "Bad Apple in Celeste",
-        descriptions: ["C++", "Game Engine Modding", "Video Processing"],
-        links: [
-            { href: "https://github.com/MistOfJudgement/BadAppleCeleste", label: "GitHub Repo" },
-        ],
-        images: [
-            {
-                url: "https://www.youtube.com/watch?v=fIX6B69wnek",
-                title: "Bad Apple in Celeste Video"
-            }
-        ],
-        projectPageHref: "./bad_apple_celeste.html"
-    }
+	filename: "bad_apple_celeste.html",
+	title: "Bad Apple in Celeste",
+	contentBuilder: BadAppleCelesteContent,
+	contentData: badAppleCelesteData,
+	navLabel: "Bad Apple Celeste",
+	navOrder: "c-badapple-celeste",
+	navCategory: "Projects",
+	projectInfo: {
+		title: "Bad Apple in Celeste",
+		descriptions: ["C++", "Game Engine Modding", "Video Processing"],
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/BadAppleCeleste",
+				label: "GitHub Repo",
+			},
+		],
+		images: [
+			{
+				url: "https://www.youtube.com/watch?v=fIX6B69wnek",
+				title: "Bad Apple in Celeste Video",
+			},
+		],
+		projectPageHref: "./bad_apple_celeste.html",
+	},
 };

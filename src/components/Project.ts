@@ -14,7 +14,6 @@ export interface ProjectProps {
 	projectPageHref?: string; // Optional link to the dedicated project page
 }
 
-
 export const Project: Blueprint<ProjectProps> = (props) => {
 	const listElements = [
 		props.descriptions,
@@ -24,11 +23,11 @@ export const Project: Blueprint<ProjectProps> = (props) => {
 	]
 		.filter((e) => e !== undefined)
 		.reduce((a, c) => [...a, ...c], []);
-	const titleElement = props.projectPageHref 
+	const titleElement = props.projectPageHref
 		? `<a href="${props.projectPageHref}">${props.title}</a>`
 		: props.title;
-		
-		return `
+
+	return `
 		<li>
 		<h4>${titleElement}</h4>
     <ul>
@@ -36,5 +35,3 @@ export const Project: Blueprint<ProjectProps> = (props) => {
     </ul>
 </li>`;
 };
-
-
