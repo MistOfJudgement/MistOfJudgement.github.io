@@ -1,4 +1,4 @@
-import { Blueprint } from "../architect";
+import { Blueprint, PageConfig } from "../../architect";
 
 // Interactive section with TypeScript code that gets type-checked
 interface InteractiveSectionProps {
@@ -44,32 +44,14 @@ ${scriptContent}
 </section>`;
 };
 
-export const ProjectPage: Blueprint = (): string => {
-	return `<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Personal Project Page</title>
-  <link rel="stylesheet" href="./static/clean.css" />
+const WebsiteContent: Blueprint = () => {
+	return `
   <style>
     .css-isolated {
       /* This section will not be affected by global CSS toggle */
     }
   </style>
-</head>
 
-<body>
-  <header>
-    <h1>The Personal Project Page</h1>
-    <nav>
-      <a href="https://github.com/MistOfJudgement/MistOfJudgement.github.io">GitHub Repository</a>
-      <a href="./index.html">Back to Projects</a>
-    </nav>
-  </header>
-  
-  <main>
     <h2>Problem & Purpose</h2>
     <p>I started making this site as one of my "weekly projects" during my summer of 20XX, although the consistency didn't last too long. Most of my creations are things I make for the intrinsic joy of programming and I really only share it with the friends that would understand the effort put in. A personal website can serve as a public space I can leave my projects to share more broadly. I can also use it as essentially a blog for each of the projects.</p>
     
@@ -93,7 +75,6 @@ stylesheets.forEach(sheet => {
     }
 });
       </code></pre>
-
 
     <h2>Formatter</h2>
     <p>This one is bespoke for no reason. here's how it works</p>
@@ -131,41 +112,29 @@ stylesheets.forEach(sheet => {
         })();
       </script>
     </section>
-  </main>
-  
-  <footer>
-    <button onclick="toggleCSS()">Toggle CSS</button>
-  </footer>
-  
-  <script>
-    function disableCSSStyle() {
-      const stylesheets = Array.from(document.styleSheets);
-      stylesheets.forEach(sheet => {
-        if (sheet.href && sheet.href.includes('clean.css')) {
-          sheet.disabled = true;
-        }
-      });
-    }
-    function enableCSSStyle() {
-      const stylesheets = Array.from(document.styleSheets);
-      stylesheets.forEach(sheet => {
-        if (sheet.href && sheet.href.includes('clean.css')) {
-          sheet.disabled = false;
-        }
-      });
-    }
-    function toggleCSS() {
-      const mainStylesheet = Array.from(document.styleSheets).find(sheet => 
-        sheet.href && sheet.href.includes('clean.css')
-      );
-      if (mainStylesheet && mainStylesheet.disabled) {
-        enableCSSStyle();
-      } else {
-        disableCSSStyle();
-      }
-    }
-  </script>
-</body>
-
-</html>`;
+`;
 };
+
+
+// Export complete page configuration
+export const WebsitePage: PageConfig = {
+	filename: "website.html",
+	title: "The Personal Project Page",
+  contentBuilder: WebsiteContent,
+  contentData: {},
+  navLabel: "Website",
+  navOrder: "a-website",
+  navCategory: "Projects",
+    projectInfo: {
+    title: "Personal Website",
+    descriptions: ["HTML, CSS, JavaScript", "Hosted on GitHub Pages"],
+    links: [
+      { href: "https://github.com/MistOfJudgement/MistOfJudgement.github.io", label: "Github Repo" }
+    ],
+    iframes: [
+      { src: "./index.html", title: "Personal Website" }
+    ],
+    projectPageHref: "./website.html"
+  }
+};
+
