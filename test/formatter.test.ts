@@ -100,6 +100,34 @@ extra
 </outer>`,
 	);
 }
+
+function formatPreTagPreservesFormatting() {
+	const actual = format(
+		`<div>
+    <pre>
+function test() {
+    console.log("hello");
+        if (true) {
+            return;
+        }
+}
+    </pre>
+    <p>after pre</p>
+</div>`,
+	);
+	const expected = `<div>
+	<pre>
+function test() {
+    console.log("hello");
+        if (true) {
+            return;
+        }
+}
+	</pre>
+	<p>after pre</p>
+</div>`;
+	assertEqual(actual, expected);
+}
 export const formatTestSuite: Suite = {
 	name: "formatTestSuite",
 	tests: [
@@ -113,5 +141,6 @@ export const formatTestSuite: Suite = {
 		formatSingleTags,
 		formatSingleLineOpenClose,
 		formatLinks,
+		formatPreTagPreservesFormatting,
 	],
 };

@@ -1,6 +1,8 @@
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "fs";
 import { Index, indexData } from "./pages/index.blueprint";
 import { format } from "./formatter";
+import { Blueprint, DeepReadonly } from "./architect";
+import { ProjectPage } from "./pages/website.blueprint";
 const outputDir = "build";
 
 const testPage = `
@@ -30,9 +32,18 @@ function writeIndex(): void {
 	const index = Index(indexData);
 	writePage("index.html", index);
 }
+
+function writePageComponent<T>(
+	filepath: string,
+	builder: Blueprint<T>,
+	data: DeepReadonly<T>,
+): void {
+	writePage(filepath, builder(data));
+}
 setupBuildDirectory();
 writePage("test.html", testPage);
 writeIndex();
+writePageComponent("website.html", ProjectPage, {});
 
 function copyStatic(): void {
 	// clear static folder if exists

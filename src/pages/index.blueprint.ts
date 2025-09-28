@@ -14,6 +14,7 @@ export const indexData: IndexProps = {
 		{ label: "Youtube", href: "https://www.youtube.com/@tusharrangaswamy5910" },
 		{ label: "Email", href: "mailto:tusharrangaswamy@gmail.com" },
 		{ label: "Itch.io", href: "https://mistofjudgement.itch.io/" },
+		{ label: "project page", href: "./website.html" },
 	],
 	projects: [
 		{
