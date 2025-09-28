@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Contact Me</title>
+		<link rel="stylesheet" href="./static/clean.css" />
+	</head>
+	
+	<body>
+		<header>
+			<h1>Contact Me</h1>
+		</header>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li>Projects
+					<ul>
+						<li><a href="website.html">Website</a></li>
+						<li><a href="bad_apple_terminal.html">Bad Apple Terminal</a></li>
+						<li><a href="bad_apple_celeste.html">Bad Apple Celeste</a></li>
+					</ul>
+				</li>
+				<li><a href="about.html">About</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</nav>
+		<main>
+			
+			<section class="contact-info">
+				<h2>Get In Touch</h2>
+				<p>I'm somewhat busy with school and work but reach out if you have something interesting!</p>
+				
+				<div class="email">
+					<h3>Email</h3>
+					<a href="mailto:tusharrangaswamy@gmail.com">tusharrangaswamy@gmail.com</a>
+				</div>
+			</section>
+			
+			<section class="social-links">
+				<h3>Find Me Online</h3>
+				<ul class="social-list">
+					
+					<li>
+						<strong>GitHub:</strong> 
+						<a href="https://github.com/MistOfJudgement" target="_blank" rel="noopener noreferrer">@MistOfJudgement</a>
+					</li>
+					
+					<li>
+						<strong>YouTube:</strong> 
+						<a href="https://www.youtube.com/@tusharrangaswamy5910" target="_blank" rel="noopener noreferrer">@tusharrangaswamy5910</a>
+					</li>
+					
+					<li>
+						<strong>Itch.io:</strong> 
+						<a href="https://mistofjudgement.itch.io/" target="_blank" rel="noopener noreferrer">@mistofjudgement</a>
+					</li>
+					
+				</ul>
+			</section>
+			
+		</main>
+		
+		<footer>
+			<div id="footer">
+				<button onclick="toggleCSS()">Toggle CSS</button>
+			</div>
+			<script>
+				function disableCSSStyle() {
+				document.styleSheets[0].disabled = true;
+				}
+				function enableCSSStyle() {
+				document.styleSheets[0].disabled = false;
+				}
+				function toggleCSS() {
+				if (document.styleSheets[0].disabled) {
+				enableCSSStyle();
+				} else {
+				disableCSSStyle();
+				}
+				}
+			</script>
+		</footer>
+		
+	</body>
+	
+</html>

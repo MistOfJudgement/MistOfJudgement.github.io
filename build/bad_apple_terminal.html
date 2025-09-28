@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bad Apple in Terminal</title>
+		<link rel="stylesheet" href="./static/clean.css" />
+	</head>
+	
+	<body>
+		<header>
+			<h1>Bad Apple in Terminal</h1>
+		</header>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li>Projects
+					<ul>
+						<li><a href="website.html">Website</a></li>
+						<li><a href="bad_apple_terminal.html">Bad Apple Terminal</a></li>
+						<li><a href="bad_apple_celeste.html">Bad Apple Celeste</a></li>
+					</ul>
+				</li>
+				<li><a href="about.html">About</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</nav>
+		<main>
+			
+			<h2>Problem & Purpose</h2>
+			<p>I was bored in my highschool homeroom and I wanted to mess with the web terminal I had access to for a webdev class. I just wanted to render the Bad Apple animation in a terminal, but this project enables any video or image to be displayed.</p>
+			
+			<h2>Technical</h2>
+			<p>Certain terminals can output in color with escape characters. <a href="https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit">link</a>. For images, the task is fairly trivial where all I need to do get the raw image data using the library JIMP, scale the image, then map each pixel to a character with an escape code.</p>
+			<img alt="Terminal rendering" />
+			
+			<p>For bad apple specifically, I had actually done similar work for the BadAppleCeleste project. That one contains a C++ program I wrote to convert a video into a file with RunLengthEncoding for White and Black. I reused the RLE file generated from there to reconstruct images that can be rendered to the terminal.</p>
+			
+			<!-- Cool interactive thing where I demonstrate run length encoding -->
+			
+			<p>For videos, I have a precompute step which saves the text with the escape characters into a file which can be read from later and printed at an appropriate framerate.</p>
+			
+		</main>
+		
+		<footer>
+			<div id="footer">
+				<button onclick="toggleCSS()">Toggle CSS</button>
+			</div>
+			<script>
+				function disableCSSStyle() {
+				document.styleSheets[0].disabled = true;
+				}
+				function enableCSSStyle() {
+				document.styleSheets[0].disabled = false;
+				}
+				function toggleCSS() {
+				if (document.styleSheets[0].disabled) {
+				enableCSSStyle();
+				} else {
+				disableCSSStyle();
+				}
+				}
+			</script>
+		</footer>
+		
+	</body>
+	
+</html>
