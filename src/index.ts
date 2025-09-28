@@ -3,20 +3,13 @@ import { format } from "./formatter";
 import { PageLayout } from "./pages/page_layout.blueprint";
 import { AboutPage } from "./pages/about.blueprint";
 import { ContactPage } from "./pages/contact.blueprint";
-import { IndexPage } from "./pages/index.blueprint";
+import { IndexPage, displayOnlyProjects } from "./pages/index.blueprint";
 import { WebsitePage } from "./pages/projects/website.blueprint";
 import { BadApplePage } from "./pages/projects/bad_apple_terminal.blueprint";
 import { BadAppleCelestePage } from "./pages/projects/bad_apple_celeste.blueprint";
 import { PageConfig } from "./architect";
 import type { ProjectProps } from "./components/Project";
-
-// Import NavItem type from page_layout
-interface NavItem {
-	href?: string;
-	label: string;
-	order?: string;
-	children?: NavItem[];
-}
+import type { NavItem } from "./components/Navigation";
 const outputDir = "build";
 
 const testPage = `
@@ -116,10 +109,11 @@ function buildStandardPage(pageConfig: PageConfig<unknown>, allPages: PageConfig
 	// If this is the index page, inject project data
 	let contentData: unknown = pageConfig.contentData;
 	if (pageConfig.filename === "index.html") {
-		const projects = getProjectsFromPages(allPages);
+		const pageProjects = getProjectsFromPages(allPages);
+		const allProjects = [...pageProjects, ...displayOnlyProjects];
 		contentData = {
 			...pageConfig.contentData as object,
-			projects: projects
+			projects: allProjects
 		};
 	}
 	

@@ -45,13 +45,11 @@ export const BadAppleCelestePage: PageConfig<BadAppleCelesteData> = {
         descriptions: ["C++", "Game Engine Modding", "Video Processing"],
         links: [
             { href: "https://github.com/MistOfJudgement/BadAppleCeleste", label: "GitHub Repo" },
-            { href: "https://www.youtube.com/watch?v=fIX6B69wnek", label: "Video Demo" }
         ],
         images: [
             {
-                src: "https://img.youtube.com/vi/fIX6B69wnek/hqdefault.jpg",
-                alt: "Bad Apple in Celeste Video Thumbnail",
-                href: "https://www.youtube.com/watch?v=fIX6B69wnek"
+                url: "https://www.youtube.com/watch?v=fIX6B69wnek",
+                title: "Bad Apple in Celeste Video"
             }
         ],
         projectPageHref: "./bad_apple_celeste.html"

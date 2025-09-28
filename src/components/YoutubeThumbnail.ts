@@ -1,22 +1,43 @@
 import type { Blueprint } from "../architect";
 
 export interface YoutubeThumbnail {
-    src: string;
-    alt: string;
-    href?: string;
+    url: string;
+    title?: string; // Optional custom title, otherwise extracted from URL
+}
+
+// Extract YouTube video ID from various YouTube URL formats
+function extractVideoId(url: string): string | null {
+    const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+        /youtube\.com\/v\/([^&\n?#]+)/
+    ];
+    
+    for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match) return match[1];
+    }
+    return null;
 }
 
 export const YoutubeThumbnail: Blueprint<YoutubeThumbnail> = (props): string => {
-    const img = `<img src="${props.src}" alt="${props.alt}" loading="lazy" class="youtube-thumbnail-img">`;
-    if (props.href !== undefined && props.href !== "") {
-        return `<div class="container">
-                    <a
-                        href="${props.href}" 
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="youtube-thumbnail-link">${img}</a>
-                </div>`;
+    const videoId = extractVideoId(props.url);
+    
+    if (!videoId) {
+        throw new Error(`Invalid YouTube URL: ${props.url}. Expected format: youtube.com/watch?v=VIDEO_ID or youtu.be/VIDEO_ID`);
     }
-    return `<div class="container">${img}</div>`;
+    
+    const thumbnailSrc = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    const altText = props.title ?? `YouTube Video Thumbnail`;
+    
+    const img = `<img src="${thumbnailSrc}" alt="${altText}" loading="lazy" class="youtube-thumbnail-img">`;
+    const caption = `<figcaption class="youtube-thumbnail-caption">Watch on YouTube</figcaption>`;
+    const figure = `<figure class="youtube-thumbnail-figure">
+        ${caption}
+        ${img}
+        </figure>`;
+    
+    const content = `<a href="${props.url}" target="_blank" rel="noopener noreferrer" class="youtube-thumbnail-link">${figure}</a>`;
+    
+    return `<div class="container">${content}</div>`;
 }
 

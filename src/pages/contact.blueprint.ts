@@ -28,7 +28,7 @@ const ContactContent: Blueprint<ContactData> = (props) => {
                 ${props.socialLinks.map(link => `
                     <li>
                         <strong>${link.platform}:</strong> 
-                        <a href="${link.url}" target="_blank">@${link.username}</a>
+                        <a href="${link.url}" target="_blank" rel="noopener noreferrer">@${link.username}</a>
                     </li>
                 `).join('')}
             </ul>
