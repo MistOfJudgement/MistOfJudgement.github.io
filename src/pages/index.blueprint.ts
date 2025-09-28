@@ -18,7 +18,6 @@ const indexData = {
 	],
 	projects: [],
 	projectsHeader: "Projects",
-	toggleCSSLabel: "Toggle CSS",
 };
 
 // Additional projects that don't have dedicated pages
@@ -112,7 +111,6 @@ interface IndexProps {
 	name: string;
 	description: string;
 	projectsHeader: string;
-	toggleCSSLabel: string;
 	projects: ProjectProps[];
 	links: LinkProps[];
 }
@@ -130,24 +128,6 @@ const IndexContent: Blueprint<IndexProps> = (props) => {
         ${fromList(props.projects, Project)}
     </ul>
   </section>
-  <div id="footer">
-    <button onclick="toggleCSS()">${props.toggleCSSLabel}</button>
-  </div>
-  <script>
-    function disableCSSStyle() {
-      document.styleSheets[0].disabled = true;
-    }
-    function enableCSSStyle() {
-      document.styleSheets[0].disabled = false;
-    }
-    function toggleCSS() {
-      if (document.styleSheets[0].disabled) {
-        enableCSSStyle();
-      } else {
-        disableCSSStyle();
-      }
-    }
-  </script>
 `;
 };
 

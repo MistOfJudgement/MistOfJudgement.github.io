@@ -63,7 +63,24 @@
 		</main>
 		
 		<footer>
-			
+			<div id="footer">
+				<button onclick="toggleCSS()">Toggle CSS</button>
+			</div>
+			<script>
+				function disableCSSStyle() {
+				document.styleSheets[0].disabled = true;
+				}
+				function enableCSSStyle() {
+				document.styleSheets[0].disabled = false;
+				}
+				function toggleCSS() {
+				if (document.styleSheets[0].disabled) {
+				enableCSSStyle();
+				} else {
+				disableCSSStyle();
+				}
+				}
+			</script>
 		</footer>
 		
 	</body>

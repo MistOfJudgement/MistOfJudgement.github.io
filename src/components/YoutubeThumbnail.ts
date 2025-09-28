@@ -29,7 +29,7 @@ export const YoutubeThumbnail: Blueprint<YoutubeThumbnail> = (props): string => 
     const thumbnailSrc = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
     const altText = props.title ?? `YouTube Video Thumbnail`;
     
-    const img = `<img src="${thumbnailSrc}" alt="${altText}" loading="lazy" class="youtube-thumbnail-img">`;
+    const img = `<img src="${thumbnailSrc}" alt="${altText}" width="320" height="180" loading="lazy" class="youtube-thumbnail-img">`;
     const caption = `<figcaption class="youtube-thumbnail-caption">Watch on YouTube</figcaption>`;
     const figure = `<figure class="youtube-thumbnail-figure">
         ${caption}

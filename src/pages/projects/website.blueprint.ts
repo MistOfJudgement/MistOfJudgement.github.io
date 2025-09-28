@@ -53,7 +53,7 @@ const WebsiteContent: Blueprint = () => {
   </style>
 
     <h2>Problem & Purpose</h2>
-    <p>I started making this site as one of my "weekly projects" during my summer of 20XX, although the consistency didn't last too long. Most of my creations are things I make for the intrinsic joy of programming and I really only share it with the friends that would understand the effort put in. A personal website can serve as a public space I can leave my projects to share more broadly. I can also use it as essentially a blog for each of the projects.</p>
+    <p>I started making this site as one of my "weekly projects" during my summer of 2025, although the consistency didn't last too long. Most of my creations are things I make for the intrinsic joy of programming and I really only share it with the friends that would understand the effort put in. A personal website can serve as a public space I can leave my projects to share more broadly. I can also use it as essentially a blog for each of the projects.</p>
     
     <h2>Technical Decisions</h2>
     <p>With the product goal being a project showcase, I also had a couple of technical goals that reflect some of my web development ideals.</p>
@@ -80,38 +80,16 @@ stylesheets.forEach(sheet => {
     <p>This one is bespoke for no reason. here's how it works</p>
     
     <h2>Tester</h2>
-    <p>I haven't been keeping up with tests because this is mostly ui work but the formatter has unit tests, and this test engine is bespoke too.</p>
+    <p>I haven't been keeping up with tests because this is mostly ui work but
+     the formatter has unit tests, and this test engine is bespoke too.</p>
 
-    <section>
-      <h2>CSS Toggle Demo</h2>
-      <p>This section demonstrates the CSS toggle functionality. The button below works independently of the main page toggle.</p>
-      <p>This section should be deleted later</p>
-      <div class="interactive-demo-container">
-        <p id="demo-text">This text will change style when you toggle CSS for this section only.</p>
-        <button id="section-toggle">Toggle Section CSS</button>
-      </div>
-      <script>
-        (function() {
-          const button = document.querySelector("button#section-toggle");
-          const text = document.querySelector("p#demo-text");
-          if (!button || !text) return;
-          let cssEnabled = true;
-
-          button.addEventListener("click", () => {
-            cssEnabled = !cssEnabled;
-            if (cssEnabled) {
-              text.style.color = "black";
-              text.style.fontSize = "1em";
-              button.textContent = "Toggle Section CSS";
-            } else {
-              text.style.color = "red";
-              text.style.fontSize = "1.5em";
-              button.textContent = "Restore Section CSS";
-            }
-          });
-        })();
-      </script>
-    </section>
+    <h2>Other Features</h2>
+    <h3>Iframes</h3>
+    <p>You saw on the home page you could see the same page nested inside itself.
+     This is done with an iframe component because I thought it was cool.
+     It only loops like once or twice before the browser stops. There is a way
+     for me to subvert that but that violates the goal to keep the site lightweight.
+     </p>
 `;
 };
 

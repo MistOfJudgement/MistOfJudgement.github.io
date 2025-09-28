@@ -85,7 +85,6 @@ export const BadApplePage = {
 		descriptions: ["Node.js", "Terminal graphics", "Video-to-ASCII conversion"],
 		links: [
 			{ href: "https://github.com/MistOfJudgement/BadAppleTerminal", label: "GitHub Repo" },
-			{ href: "./bad_apple_terminal.html", label: "Project Details" }
 		],
 		projectPageHref: "./bad_apple_terminal.html"
 	}
