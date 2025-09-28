@@ -13,7 +13,7 @@ export function format(data: string): string {
 			const tmp =
 				indentChar.repeat(
 					indent -
-						((closeTags?.[0]?.index ?? 99) < (openTags?.[0]?.index ?? 99)
+						((closeTags[0]?.index ?? 99) < (openTags[0]?.index ?? 99)
 							? closeTags.length
 							: 0),
 				) + line.trimStart();

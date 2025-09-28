@@ -21,5 +21,14 @@ export default defineConfig([
 				tsconfigRootDir: __dirname,
 			},
 		},
+		rules: {
+			"@typescript-eslint/naming-convention": [
+				"error",
+				{
+					selector: "variable",
+					format: ["camelCase", "UPPER_CASE", "PascalCase"],
+				},
+			],
+		},
 	},
 ]);

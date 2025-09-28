@@ -1,4 +1,4 @@
-import { Blueprint } from "../architect";
+import type { Blueprint } from "../architect";
 
 export interface LinkProps {
 	href: string;

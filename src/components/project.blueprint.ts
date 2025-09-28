@@ -1,5 +1,7 @@
-import { Blueprint, fromList } from "../architect";
-import { Link, LinkProps } from "./link.blueprint";
+import type { Blueprint } from "../architect";
+import { fromList } from "../architect";
+import type { LinkProps } from "./link.blueprint";
+import { Link } from "./link.blueprint";
 
 export interface ProjectProps {
 	title: string;
@@ -20,6 +22,7 @@ interface ImageProps {
 	alt: string;
 	href?: string;
 }
+
 const IFrame: Blueprint<IFrameProps> = (props): string => {
 	return `<div class="container">
 <iframe src="${props.src}" title="${props.title}" ${props.props?.join(" ") ?? ""}></iframe>
@@ -27,10 +30,10 @@ const IFrame: Blueprint<IFrameProps> = (props): string => {
 };
 
 const Image: Blueprint<ImageProps> = (props): string => {
-	const img = `<img src="${props.src}" alt="${props.alt}" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">`;
-	if (props.href) {
+	const img = `<img src="${props.src}" alt="${props.alt}" loading="lazy" class="youtube-thumbnail-img">`;
+	if (props.href !== undefined && props.href !== "") {
 		return `<div class="container">
-<a href="${props.href}" target="_blank" rel="noopener noreferrer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block;">${img}</a>
+<a href="${props.href}" target="_blank" rel="noopener noreferrer" class="youtube-thumbnail-link">${img}</a>
 </div>`;
 	}
 	return `<div class="container">${img}</div>`;

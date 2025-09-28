@@ -1,6 +1,9 @@
-import { Blueprint, fromList } from "../architect";
-import { Link, LinkProps } from "../components/link.blueprint";
-import { Project, ProjectProps } from "../components/project.blueprint";
+import type { Blueprint } from "../architect";
+import { fromList } from "../architect";
+import type { LinkProps } from "../components/link.blueprint";
+import { Link } from "../components/link.blueprint";
+import type { ProjectProps } from "../components/project.blueprint";
+import { Project } from "../components/project.blueprint";
 
 export const indexData: IndexProps = {
 	name: "Tushar Rangaswamy",

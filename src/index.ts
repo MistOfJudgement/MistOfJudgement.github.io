@@ -12,7 +12,7 @@ const testPage = `
     <title>Test Page</title>
 </head>
 `;
-function setupBuildDirectory() {
+function setupBuildDirectory(): void {
 	// Check if the output directory exists, if not, create it
 	if (!existsSync(outputDir)) {
 		console.log(`Creating directory: ${outputDir}`);
@@ -20,13 +20,13 @@ function setupBuildDirectory() {
 	}
 }
 
-function writePage(filepath: string, content: string) {
+function writePage(filepath: string, content: string): void {
 	const fullPath = `${outputDir}/${filepath}`;
 	writeFileSync(fullPath, format(content), "utf8");
 	console.log(`Page written to: ${fullPath}`);
 }
 
-function writeIndex() {
+function writeIndex(): void {
 	const index = Index(indexData);
 	writePage("index.html", index);
 }
@@ -34,7 +34,7 @@ setupBuildDirectory();
 writePage("test.html", testPage);
 writeIndex();
 
-function copyStatic() {
+function copyStatic(): void {
 	// clear static folder if exists
 	const staticDir = "src/static";
 	const destDir = `${outputDir}/static`;
