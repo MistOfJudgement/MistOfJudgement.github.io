@@ -117,6 +117,86 @@ export const displayOnlyProjects: ProjectProps[] = [
 			title: "Projector board Video",
 		},
 	},
+	{
+		title: "Dtx Download",
+		descriptions: ["Automated Download tool for DTXMania files", "Typescript", "Electron"],
+		links: [
+			{
+				href: "github.com/MistOfJudgement/dtxdownload",
+				label: "Github Repo",
+			},
+		],
+		image: {
+			src: "https://github.com/MistOfJudgement/dtxdownload/blob/main/docs/images/dtx-main-interface-selected.png?raw=true",
+			alt: "Dtx Download Screenshot",
+		}
+	},
+	{
+		title: "Playlist DL",
+		descriptions: ["Download Youtube Playlists", "Android", "Java", "Kinda just a wrapper around yt-dlp"],
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/PlaylistDL",
+				label: "Github Repo",
+			},
+		],
+	},
+	{
+		title: "Rabbit and Steel Randomizer",
+		descriptions: [
+			"Text Randomizer for the game Rabbit and Steel",
+			"C#",
+			"Game modding",
+			"Decompilation",
+		],
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/RNSReloaded.Randomizer",
+				label: "Github Repo",
+			},
+		],
+		yt: {
+			url: "https://www.youtube.com/watch?v=w5fo45Mt-mc",
+			title: "Rabbit and Steel Randomizer Video",
+		},
+	},
+	{
+		title: "Custom Arcade Cabinet",
+		descriptions: [
+			"Building a custom arcade cabinet for Touhou games",
+			"Woodworking",
+			"Electronics",
+		],
+	},
+	{
+		title: "Travel Cluster",
+		descriptions: [
+			"Automated address scraper and location clustering",
+			"Python",
+			"Puppeteer",
+			"Scikit-learn",
+		],
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/travel-cluster",
+				label: "Github Repo",
+			},
+		],
+	},
+	{
+		title: "Hide and Seek",
+		descriptions: [
+			"Partial recreation of Jetlag: the Game, hide and seek",
+			"Made for a game jam",
+			"Express, React"
+		],
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/hideandseek",
+				label: "Github Repo",
+			},
+		],
+	},
 ];
 
 interface IndexProps {

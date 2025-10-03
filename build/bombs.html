@@ -187,10 +187,7 @@
 				
 				// Its more important to setup the bomb handler code before setting up the dom elements
 				class BombModule extends HTMLElement {
-				constructor() {
-				super();
-				// this.attachShadow({mode: 'open'});
-				}
+				
 				connectedCallback() {
 				this.innerHTML = `
 				<svg viewbox="0 0 93 93">
@@ -325,9 +322,9 @@
 				}
 				initializeModules(modules) {
 				this.modules = [];
-				for (let i = 0; i < modules.length; i++) {
-				let module = document.createElement(modules[i]);
-				if (modules[i] === "timer-module") {
+				for (const element of modules) {
+				let module = document.createElement(element);
+				if (element === "timer-module") {
 				this.timer = module;
 				}
 				this.modules.push(module);
@@ -335,8 +332,8 @@
 				}
 				}
 				initializeEdgework() {
-				for (let i = 0; i < this.edgework.length; i++) {
-				let info = this.edgework[i];
+				for (const element of this.edgework) {
+				let info = element;
 				if (info.type === "indicator") {
 				let indicator = document.createElement("ktane-indicator");
 				indicator.setAttribute("lit", info.lit);
@@ -355,17 +352,17 @@
 				}
 				numBatteries() {
 				let total = 0;
-				for (let i = 0; i < this.edgework.length; i++) {
-				if (this.edgework[i].type === "battery") {
-				total += this.edgework[i].value === "AA" ? 2 : 1;
+				for (const element of this.edgework) {
+				if (element.type === "battery") {
+				total += element.value === "AA" ? 2 : 1;
 				}
 				}
 				return total;
 				}
 				hasIndicator(label) {
-				for (let i = 0; i < this.modules.length; i++) {
-				if (this.modules[i].type === "indicator" && this.modules[i].value === label) {
-				return this.modules[i];
+				for (const element of this.modules) {
+				if (element.type === "indicator" && element.value === label) {
+				return element;
 				}
 				}
 				return false;
@@ -389,10 +386,7 @@
 				customElements.define('ktane-bomb', Bomb);
 				
 				class TimerModule extends HTMLElement {
-				constructor() {
-				super();
 				
-				}
 				intervalCallback() {
 				if (this.timeRemaining <= 0) {
 				this.parent.destruct();
@@ -473,9 +467,9 @@
 				wire.cut = true;
 				// console.log(this.getCorrectWire())
 				if (this.getCorrectWire() === wireIndex) {
-				for (let i = 0; i < this.wires.length; i++) {
-				if (this.wires[i].cut === false) {
-				this.querySelector(`.wire.w${this.wires[i].position + 1}`).removeEventListener("click", this.wires[i].clickListener);
+				for (const element of this.wires) {
+				if (element.cut === false) {
+				this.querySelector(`.wire.w${element.position + 1}`).removeEventListener("click", element.clickListener);
 				}
 				}
 				this.defuseModule();

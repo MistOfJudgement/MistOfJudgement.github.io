@@ -46,11 +46,6 @@ ${scriptContent}
 
 const WebsiteContent: Blueprint = () => {
 	return `
-  <style>
-    .css-isolated {
-      /* This section will not be affected by global CSS toggle */
-    }
-  </style>
 
     <h2>Problem & Purpose</h2>
     <p>I started making this site as one of my "weekly projects" during my summer of 2025, although the consistency didn't last too long. Most of my creations are things I make for the intrinsic joy of programming and I really only share it with the friends that would understand the effort put in. A personal website can serve as a public space I can leave my projects to share more broadly. I can also use it as essentially a blog for each of the projects.</p>
@@ -58,7 +53,9 @@ const WebsiteContent: Blueprint = () => {
     <h2>Technical Decisions</h2>
     <p>With the product goal being a project showcase, I also had a couple of technical goals that reflect some of my web development ideals.</p>
     <h4>Progressive Enhancement</h4>
-    <p>I would not call myself a front-end dev or designer simply because I don't care about how things look that much. The content should be able to stand alone. Everything should look good without CSS, and you can see that with the button at the bottom.</p>
+    <p>I would not call myself a front-end dev or designer simply because I don't
+	 care about how things look that much. The content should be able to stand alone.
+	  Everything should look good without CSS, and you can see that with css toggle.</p>
     <h4>Lightweight</h4>
     <p>Pages should load fast. This project doesn't use any existing frameworks like react so the only JavaScript being pulled in is code that actually does something.</p>
     
@@ -66,7 +63,8 @@ const WebsiteContent: Blueprint = () => {
     <p>Each component that I included is typed as a Blueprint, equivalent to a react functional component except that it just returns a string.</p>
     <code>const Component: Blueprint&lt;ComponentProps&gt; = (props) =&gt; \`Content\`</code>
 
-    <p>Toggling the CSS is fairly simple, as its just a matter of disabling the stylesheet</p>
+    <p>Toggling the CSS is fairly simple, as its just a matter of disabling the
+	stylesheet</p>
     <pre><code>
 const stylesheets = Array.from(document.styleSheets);
 stylesheets.forEach(sheet => {
@@ -76,8 +74,12 @@ stylesheets.forEach(sheet => {
 });
       </code></pre>
 
+	  <p>You can also select the "fancy" "modern" css theme which I generated
+	  using github copilot. You can feel how generic it is, but that's there as
+	  a demonstration. Maybe at some point I'll handcraft a really clean theme.</p> 
     <h2>Formatter</h2>
-    <p>This one is bespoke for no reason. here's how it works</p>
+    <p>This one is bespoke for no reason. I have it for debugging purposes, and
+	all it does is tab forward nested tags</p>
     
     <h2>Tester</h2>
     <p>I haven't been keeping up with tests because this is mostly ui work but
@@ -90,6 +92,11 @@ stylesheets.forEach(sheet => {
      It only loops like once or twice before the browser stops. There is a way
      for me to subvert that but that violates the goal to keep the site lightweight.
      </p>
+
+	 <h3>CSS Selector</h3>
+	 <p>Because the page is static and semantic, I thought it would be cool to be
+	 able to switch between different stylesheets on the same contant. You can
+	 swap between them using the selector at the top of each page.
 
 	 <h2>Final Thoughts</h2>
 	 <p>I consider this a persistent project that I can adapt as I work on other
