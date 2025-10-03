@@ -49,12 +49,10 @@ export const BadAppleCelestePage: PageConfig<BadAppleCelesteData> = {
 				label: "GitHub Repo",
 			},
 		],
-		images: [
-			{
-				url: "https://www.youtube.com/watch?v=fIX6B69wnek",
-				title: "Bad Apple in Celeste Video",
-			},
-		],
+		yt: {
+			url: "https://www.youtube.com/watch?v=fIX6B69wnek",
+			title: "Bad Apple in Celeste Video",
+		},
 		projectPageHref: "./bad_apple_celeste.html",
 	},
 };

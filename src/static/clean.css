@@ -95,3 +95,23 @@ body {
 #projects {
 	text-align: center;
 }
+
+/* Responsive image styling */
+.responsive-img {
+	width: 100%;
+	height: auto !important; /* Force aspect ratio preservation */
+	max-width: 100%;
+	max-height: 25vh; /* Scale with viewport, allows growth with larger cards */
+	min-height: 120px; /* Minimum size for readability */
+	object-fit: contain; /* Preserve aspect ratio, fit within bounds */
+	display: block;
+}
+
+/* When images are in cards, ensure they fit properly */
+.cards > img {
+	width: 100% !important;
+	height: auto !important;
+	max-width: 100%;
+	flex-shrink: 1;
+	object-fit: contain; /* or contain, depending on your needs */
+}

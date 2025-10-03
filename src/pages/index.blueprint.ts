@@ -25,12 +25,11 @@ export const displayOnlyProjects: ProjectProps[] = [
 	{
 		title: "Analog Frequency Detector",
 		descriptions: ["For a high school analog electronics class"],
-		images: [
-			{
-				url: "https://www.youtube.com/watch?v=t7b9YMaFg1c",
-				title: "Analog Frequency Detector Video",
-			},
-		],
+		yt: {
+			url: "https://www.youtube.com/watch?v=t7b9YMaFg1c",
+			title: "Analog Frequency Detector Video",
+		},
+
 	},
 	{
 		title: "Web Dev Project",
@@ -39,12 +38,13 @@ export const displayOnlyProjects: ProjectProps[] = [
 			"HTML, CSS, JavaScript, Custom HTML Elements, SVG",
 		],
 		links: [
-			{ href: "./bombs.html", label: "Play here" },
+			{ href: "static/bombs.html", label: "Play here" },
 			{
 				href: "https://github.com/MistOfJudgement/MistOfJudgement.github.io/blob/main/bombs.html",
 				label: "GitHub Repo",
 			},
 		],
+		image: { src: "static/img/bomb_preview.png", alt: "Web Dev Project Screenshot" },
 	},
 	{
 		title: "Android Development",
@@ -81,12 +81,10 @@ export const displayOnlyProjects: ProjectProps[] = [
 				label: "Code adapted from this repository",
 			},
 		],
-		images: [
-			{
-				url: "https://www.youtube.com/watch?v=G3fzKPomjSg",
-				title: "Arduino Midi Drum Video",
-			},
-		],
+		yt: {
+			url: "https://www.youtube.com/watch?v=G3fzKPomjSg",
+			title: "Arduino Midi Drum Video",
+		},
 	},
 	{
 		title: "Python Text to Speech",
@@ -126,6 +124,7 @@ export const displayOnlyProjects: ProjectProps[] = [
 				label: "Sparen's tutorials",
 			},
 		],
+		image: { src: "static/img/cirno_preview.png", alt: "Cirno's Perfect Math Class Screenshot" },
 	},
 	{
 		title: "Projector board",
@@ -136,12 +135,10 @@ export const displayOnlyProjects: ProjectProps[] = [
 				label: "Github Repo",
 			},
 		],
-		images: [
-			{
-				url: "https://www.youtube.com/watch?v=zuSD_I9mtzo",
-				title: "Projector board Video",
-			},
-		],
+		yt: {
+			url: "https://www.youtube.com/watch?v=zuSD_I9mtzo",
+			title: "Projector board Video",
+		},
 	},
 ];
 
