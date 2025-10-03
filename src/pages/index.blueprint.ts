@@ -25,86 +25,121 @@ export const displayOnlyProjects: ProjectProps[] = [
 	{
 		title: "Analog Frequency Detector",
 		descriptions: ["For a high school analog electronics class"],
-		images: [{
+		yt: {
 			url: "https://www.youtube.com/watch?v=t7b9YMaFg1c",
-			title: "Analog Frequency Detector Video"
-		}]
+			title: "Analog Frequency Detector Video",
+		},
+
 	},
 	{
-		title: "Web Dev Project", 
+		title: "Web Dev Project",
 		descriptions: [
 			"Partial recreation of Keep Talking and Nobody Explodes",
-			"HTML, CSS, JavaScript, Custom HTML Elements, SVG"
+			"HTML, CSS, JavaScript, Custom HTML Elements, SVG",
 		],
 		links: [
-			{ href: "./bombs.html", label: "Play here" },
-			{ href: "https://github.com/MistOfJudgement/MistOfJudgement.github.io/blob/main/bombs.html", label: "GitHub Repo" }
-		]
+			{ href: "static/bombs.html", label: "Play here" },
+			{
+				href: "https://github.com/MistOfJudgement/MistOfJudgement.github.io/blob/main/bombs.html",
+				label: "GitHub Repo",
+			},
+		],
+		image: { src: "static/img/bomb_preview.png", alt: "Web Dev Project Screenshot" },
 	},
 	{
 		title: "Android Development",
 		descriptions: [
 			"Partial recreation of specific modules from Keep Talking and Nobody Explodes",
-			"Android Studio, Java"
+			"Android Studio, Java",
 		],
-		links: [{ href: "https://github.com/MistOfJudgement/KTANE", label: "Github Repo" }]
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/KTANE",
+				label: "Github Repo",
+			},
+		],
 	},
 	{
 		title: "High School Senior Research",
 		descriptions: [
 			"Teaching an AI to play like a person",
-			"Python, Tensorflow"
+			"Python, Tensorflow",
 		],
-		links: [{ href: "https://github.com/MistOfJudgement/SeniorResearch", label: "Github Repo" }]
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/SeniorResearch",
+				label: "Github Repo",
+			},
+		],
 	},
 	{
 		title: "Arduino Midi Drum",
 		descriptions: ["Uses an Arduino Micro and piezoelectric sensors"],
 		links: [
-			{ href: "https://github.com/evankale/ArduinoMidiDrums", label: "Code adapted from this repository" },
+			{
+				href: "https://github.com/evankale/ArduinoMidiDrums",
+				label: "Code adapted from this repository",
+			},
 		],
-		images: [{
+		yt: {
 			url: "https://www.youtube.com/watch?v=G3fzKPomjSg",
-			title: "Arduino Midi Drum Video"
-		}]
+			title: "Arduino Midi Drum Video",
+		},
 	},
 	{
 		title: "Python Text to Speech",
 		descriptions: ["For when I didn't want to speak in voice chat", "Python"],
-		links: [{ href: "https://github.com/MistOfJudgement/SpeechStuff", label: "Github Repo" }]
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/SpeechStuff",
+				label: "Github Repo",
+			},
+		],
 	},
 	{
 		title: "Video Games",
 		descriptions: ["Games I made, typically within a short timeframe"],
-		links: [{ href: "https://mistofjudgement.itch.io/", label: "Itch.io Page" }]
+		links: [
+			{ href: "https://mistofjudgement.itch.io/", label: "Itch.io Page" },
+		],
 	},
 	{
 		title: "Cirno's Perfect Math Class",
 		descriptions: [
 			"Me trying to work with my own game engine",
 			"Typescript",
-			"Used Sparen's tutorials as a reference for structures"
+			"Used Sparen's tutorials as a reference for structures",
 		],
 		links: [
-			{ href: "https://github.com/MistOfJudgement/touhouMath", label: "Github Repo" },
-			{ href: "https://mistofjudgement.github.io/touhouMath/", label: "Play Game" },
-			{ href: "https://sparen.github.io/ph3tutorials/ph3tutorials.html", label: "Sparen's tutorials" }
-		]
+			{
+				href: "https://github.com/MistOfJudgement/touhouMath",
+				label: "Github Repo",
+			},
+			{
+				href: "https://mistofjudgement.github.io/touhouMath/",
+				label: "Play Game",
+			},
+			{
+				href: "https://sparen.github.io/ph3tutorials/ph3tutorials.html",
+				label: "Sparen's tutorials",
+			},
+		],
+		image: { src: "static/img/cirno_preview.png", alt: "Cirno's Perfect Math Class Screenshot" },
 	},
 	{
 		title: "Projector board",
-		descriptions: [
-			"Using a projector like a whiteboard",
-			"OpenCV, Python"
-		],
+		descriptions: ["Using a projector like a whiteboard", "OpenCV, Python"],
 		links: [
-			{ href: "https://github.com/MistOfJudgement/Projectorboard", label: "Github Repo" }
+			{
+				href: "https://github.com/MistOfJudgement/Projectorboard",
+				label: "Github Repo",
+			},
 		],
-		images: [{
+		yt: {
 			url: "https://www.youtube.com/watch?v=zuSD_I9mtzo",
-			title: "Projector board Video"
-		}]
-	}
+			title: "Projector board Video",
+		},
+	},
 ];
 
 interface IndexProps {
@@ -138,7 +173,7 @@ export const IndexPage = {
 	contentBuilder: IndexContent,
 	contentData: indexData,
 	navLabel: "Home",
-	navOrder: "a"
+	navOrder: "a",
 };
 
 // Keep the old export for backward compatibility during transition

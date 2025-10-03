@@ -1,7 +1,5 @@
 import type { Blueprint } from "../architect";
 
-
-
 export interface IFrameProps {
 	src: string;
 	title: string;

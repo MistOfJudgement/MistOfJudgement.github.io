@@ -90,29 +90,36 @@ stylesheets.forEach(sheet => {
      It only loops like once or twice before the browser stops. There is a way
      for me to subvert that but that violates the goal to keep the site lightweight.
      </p>
+
+	 <h2>Final Thoughts</h2>
+	 <p>I consider this a persistent project that I can adapt as I work on other
+	 ideas and want to showcase them. Having everything in the browser means I get
+	 to use any form of interactivity I'm willing to implement. Everything on client-side
+	 means I can push and forget. Everything in one place means I have a one-stop shop
+	 to show off what I do. I definitely spent way more time on this personal page
+	 than what one should spend on it but overengineering is what I do best</p>
 `;
 };
-
 
 // Export complete page configuration
 export const WebsitePage: PageConfig = {
 	filename: "website.html",
 	title: "The Personal Project Page",
-  contentBuilder: WebsiteContent,
-  contentData: {},
-  navLabel: "Website",
-  navOrder: "a-website",
-  navCategory: "Projects",
-    projectInfo: {
-    title: "Personal Website",
-    descriptions: ["HTML, CSS, JavaScript", "Hosted on GitHub Pages"],
-    links: [
-      { href: "https://github.com/MistOfJudgement/MistOfJudgement.github.io", label: "Github Repo" }
-    ],
-    iframes: [
-      { src: "./index.html", title: "Personal Website" }
-    ],
-    projectPageHref: "./website.html"
-  }
+	contentBuilder: WebsiteContent,
+	contentData: {},
+	navLabel: "Website",
+	navOrder: "a-website",
+	navCategory: "Projects",
+	projectInfo: {
+		title: "Personal Website",
+		descriptions: ["HTML, CSS, JavaScript", "Hosted on GitHub Pages"],
+		links: [
+			{
+				href: "https://github.com/MistOfJudgement/MistOfJudgement.github.io",
+				label: "Github Repo",
+			},
+		],
+		iframes: { src: "./index.html", title: "Personal Website" },
+		projectPageHref: "./website.html",
+	},
 };
-
