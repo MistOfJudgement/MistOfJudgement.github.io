@@ -22,21 +22,7 @@ const indexData = {
 // Additional projects that don't have dedicated pages
 export const displayOnlyProjects: ProjectProps[] = [
 
-	{
-		title: "Web Dev Project",
-		descriptions: [
-			"Partial recreation of Keep Talking and Nobody Explodes",
-			"HTML, CSS, JavaScript, Custom HTML Elements, SVG",
-		],
-		links: [
-			{ href: "static/bombs.html", label: "Play here" },
-			{
-				href: "https://github.com/MistOfJudgement/MistOfJudgement.github.io/blob/main/bombs.html",
-				label: "GitHub Repo",
-			},
-		],
-		image: { src: "static/img/bomb_preview.png", alt: "Web Dev Project Screenshot" },
-	},
+	
 	{
 		title: "Android Development",
 		descriptions: [

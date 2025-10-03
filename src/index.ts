@@ -11,6 +11,8 @@ import { PageConfig } from "./architect";
 import type { ProjectProps } from "./components/Project";
 import type { NavItem } from "./components/Navigation";
 import { AnalogFrequencyDetectorPage } from "./pages/projects/analog_frequency.blueprint";
+import BombsPage from "./pages/bombs.blueprint";
+import { WebDevProjectConfig as WebDevProjectPage } from "./pages/projects/web_dev_bombs.blueprint";
 const outputDir = "build";
 
 const testPage = `
@@ -83,6 +85,7 @@ function generateNavigation(pages: PageConfig<unknown>[]): NavItem[] {
 			label: categoryName,
 			order: categoryOrder,
 			children: categoryPages
+				.filter((page) => page.showInNav !== false)
 				.map((page) => ({
 					href: page.filename,
 					label: page.navLabel ?? page.title,
@@ -143,6 +146,8 @@ const allPages = ([
 	BadApplePage,
 	BadAppleCelestePage,
 	AnalogFrequencyDetectorPage,
+	BombsPage,
+	WebDevProjectPage
 ] as PageConfig<unknown>[]).sort((a, b) => sortOrder(a.navOrder, b.navOrder));
 
 // NEW WAY: All pages use the same clean pattern with dynamic navigation!

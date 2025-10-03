@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Bad Apple in Celeste</title>
+		<title>Web Dev Project</title>
 		<script>
 			// Cookie helper functions
 			function setCookie(name, value, days = 365) {
@@ -36,7 +36,7 @@
 	
 	<body>
 		<header>
-			<h1>Bad Apple in Celeste</h1>
+			<h1>Web Dev Project</h1>
 		</header>
 		<nav>
 			<ul>
@@ -64,22 +64,52 @@
 		</nav>
 		<main>
 			
+			<a href="./bombs.html">Play the Game</a>
 			<h2>Problem & Purpose</h2>
-			<p>I wanted to make a Celeste Mod and I love the Bad Apple recreations.</p>
+			<p>I was already very familiar with web development by the time I took this
+				class in my senior year of high school. One of the projects was to use SVG
+				graphics in some way, with the example being a map. Around the same time
+				I was playing a lot of Keep Talking and Nobody Explodes and ended up trying
+				to memorize some of the modules. This project was combination of new features
+			to make an interesting game.</p>
 			
-			<h2>Technical Implementation</h2>
-			<p>I made an external C++ program that turns videos into a run-length encoded
-				format that my Celeste mod can read. The mod then renders the frames in sequence
-				to recreate the video. Rendering is done by hiding or showing a small berry part
-			sprite</p>
-			<h2>Features</h2>
-			<ul>
-				<li>Video frame extraction into Run-length encoding</li>
-				<li>OpenCV integration for video processing</li>
-				<li>Run-length encoding for efficient data storage</li>
-				<li>Modded Celeste to render video</li>
-			</ul>
+			<h2>Technical Decisions</h2>
+			<p>I needed to use SVG for the project requirement but I also read about
+				<a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components">Web Components</a>
+				and thought it would be cool to just make custom HTML elements for each module.
+			It would be like making my own little framework for constructing the game.</p>
 			
+			<h3>Web Components</h3>
+			<p>Each module is a custom HTML element which can manage its own state and
+				layout. The main bomb element manages the timer and strikes, and each module
+				is responsible for its own logic. The modules communicate with the bomb by
+			dispatching custom events.</p>
+			
+			<p>Here's a simplified example of the HTML structure showing custom elements:</p>
+			
+			<pre><code>&lt;ktane-bomb&gt;
+  &lt;div class=&quot;module-container&quot;&gt;
+    &lt;wires-module class=&quot;module&quot;&gt;
+      &lt;!-- SVG paths for wires that can be clicked to cut --&gt;
+      &lt;path class=&quot;wire w1&quot; d=&quot;...&quot; style=&quot;stroke: black;&quot;&gt;&lt;/path&gt;
+      &lt;path class=&quot;wire w2&quot; d=&quot;...&quot; style=&quot;stroke: blue;&quot;&gt;&lt;/path&gt;
+    &lt;/wires-module&gt;
+    
+    &lt;timer-module&gt;
+      &lt;p class=&quot;timer-number&quot;&gt;2:30&lt;/p&gt;
+      &lt;p class=&quot;strikes&quot;&gt;&lt;/p&gt;
+    &lt;/timer-module&gt;
+    
+    &lt;keypad-module class=&quot;module&quot;&gt;
+      &lt;!-- Grid of clickable symbol buttons --&gt;
+      &lt;svg class=&quot;keypad-button smileyface&quot;&gt;...&lt;/svg&gt;
+      &lt;svg class=&quot;keypad-button dragon&quot;&gt;...&lt;/svg&gt;
+      &lt;svg class=&quot;keypad-button paragraph&quot;&gt;...&lt;/svg&gt;
+    &lt;/keypad-module&gt;
+  &lt;/div&gt;
+			&lt;/ktane-bomb&gt;</code></pre>
+			
+			<p>Each module is a self-contained web component that manages its own state and communicates with the main bomb through custom events. This makes the code very modular and easy to extend with new module types.</p>
 			
 		</main>
 		
