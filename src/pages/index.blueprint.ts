@@ -14,7 +14,6 @@ const indexData = {
 		{ href: "https://www.youtube.com/@tusharrangaswamy5910", label: "Youtube" },
 		{ href: "mailto:tusharrangaswamy@gmail.com", label: "Email" },
 		{ href: "https://mistofjudgement.itch.io/", label: "Itch.io" },
-		{ href: "./website.html", label: "project page" },
 	],
 	projects: [],
 	projectsHeader: "Projects",
