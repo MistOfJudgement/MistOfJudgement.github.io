@@ -38,7 +38,7 @@ export const BadAppleCelestePage: PageConfig<BadAppleCelesteData> = {
 	contentBuilder: BadAppleCelesteContent,
 	contentData: badAppleCelesteData,
 	navLabel: "Bad Apple Celeste",
-	navOrder: "c-badapple-celeste",
+	navOrder: "b-2021-08-badapple-celeste",
 	navCategory: "Projects",
 	projectInfo: {
 		title: "Bad Apple in Celeste",

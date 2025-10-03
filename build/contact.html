@@ -5,7 +5,33 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Contact Me</title>
-		<link rel="stylesheet" href="./static/clean.css" />
+		<script>
+			// Cookie helper functions
+			function setCookie(name, value, days = 365) {
+			const expires = new Date(Date.now() + days * 864e5).toUTCString();
+			document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+			}
+			
+			function getCookie(name) {
+			return document.cookie.split('; ').reduce((r, v) => {
+			const parts = v.split('=');
+			return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+			}, '');
+			}
+			
+			// Apply saved theme immediately to prevent flicker
+			const savedTheme = getCookie('preferred-theme');
+			if (savedTheme) {
+			if (savedTheme === 'none') {
+			// No CSS - we'll disable it after the link loads
+			document.write('<link id="main-stylesheet" rel="stylesheet" href="./static/clean.css" disabled />');
+			} else {
+			document.write('<link id="main-stylesheet" rel="stylesheet" href="' + savedTheme + '" />');
+			}
+			} else {
+			document.write('<link id="main-stylesheet" rel="stylesheet" href="./static/clean.css" />');
+			}
+		</script>
 	</head>
 	
 	<body>
@@ -15,16 +41,25 @@
 		<nav>
 			<ul>
 				<li><a href="index.html">Home</a></li>
-				<li>Projects
+				<li><span>Projects</span>
 					<ul>
 						<li><a href="website.html">Website</a></li>
-						<li><a href="bad_apple_terminal.html">Bad Apple Terminal</a></li>
+						<li><a href="analog_frequency_detector.html">Analog Frequency Detector</a></li>
 						<li><a href="bad_apple_celeste.html">Bad Apple Celeste</a></li>
+						<li><a href="bad_apple_terminal.html">Bad Apple Terminal</a></li>
 					</ul>
 				</li>
 				<li><a href="about.html">About</a></li>
 				<li><a href="contact.html">Contact</a></li>
 			</ul>
+			<div class="theme-selector">
+				<label for="stylesheet-dropdown">Theme:</label>
+				<select id="stylesheet-dropdown" onchange="switchStylesheet()">
+					<option value="./static/clean.css">Clean (Original)</option>
+					<option value="./static/modern.css">Modern Dark</option>
+					<option value="">No CSS</option>
+				</select>
+			</div>
 		</nav>
 		<main>
 			
@@ -63,23 +98,73 @@
 		</main>
 		
 		<footer>
-			<div id="footer">
-				<button onclick="toggleCSS()">Toggle CSS</button>
-			</div>
+			<p>This website is still in development. Thanks for stopping by!</p>
 			<script>
-				function disableCSSStyle() {
-				document.styleSheets[0].disabled = true;
-				}
-				function enableCSSStyle() {
-				document.styleSheets[0].disabled = false;
-				}
-				function toggleCSS() {
-				if (document.styleSheets[0].disabled) {
-				enableCSSStyle();
+				function updateIframeTheme(selectedTheme) {
+				// Update all iframes on the page to match the main page theme
+				const iframes = document.querySelectorAll('iframe');
+				iframes.forEach(iframe => {
+				try {
+				// Check if iframe is loaded and accessible (same origin)
+				const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+				const iframeStylesheet = iframeDoc.getElementById('main-stylesheet');
+				
+				if (iframeStylesheet) {
+				if (selectedTheme === 'none') {
+				// No CSS option - disable stylesheet
+				iframeStylesheet.disabled = true;
 				} else {
-				disableCSSStyle();
+				// Enable stylesheet and set the href
+				iframeStylesheet.disabled = false;
+				iframeStylesheet.href = selectedTheme;
 				}
 				}
+				} catch (e) {
+				// Iframe might not be loaded yet or cross-origin, ignore
+				console.log('Could not access iframe stylesheet:', e.message);
+				}
+				});
+				}
+				
+				function switchStylesheet() {
+				const dropdown = document.getElementById('stylesheet-dropdown');
+				const stylesheet = document.getElementById('main-stylesheet');
+				const selectedTheme = dropdown.value;
+				
+				if (selectedTheme === 'none') {
+				// No CSS option - disable stylesheet
+				stylesheet.disabled = true;
+				} else {
+				// Enable stylesheet and set the href
+				stylesheet.disabled = false;
+				stylesheet.href = selectedTheme;
+				}
+				
+				// Update iframes to match
+				updateIframeTheme(selectedTheme);
+				
+				// Save user's preference in cookies
+				setCookie('preferred-theme', selectedTheme);
+				}
+				
+				// Set initial dropdown value on page load
+				document.addEventListener('DOMContentLoaded', function() {
+				const dropdown = document.getElementById('stylesheet-dropdown');
+				dropdown.addEventListener('change', switchStylesheet);
+				
+				// Set dropdown to match the already-applied theme
+				const savedTheme = getCookie('preferred-theme');
+				if (savedTheme) {
+				dropdown.value = savedTheme;
+				}
+				
+				// Update iframes after a short delay to ensure they're loaded
+				setTimeout(() => {
+				if (savedTheme) {
+				updateIframeTheme(savedTheme);
+				}
+				}, 500);
+				});
 			</script>
 		</footer>
 		

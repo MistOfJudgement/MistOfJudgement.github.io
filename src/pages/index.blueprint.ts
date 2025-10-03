@@ -14,7 +14,6 @@ const indexData = {
 		{ href: "https://www.youtube.com/@tusharrangaswamy5910", label: "Youtube" },
 		{ href: "mailto:tusharrangaswamy@gmail.com", label: "Email" },
 		{ href: "https://mistofjudgement.itch.io/", label: "Itch.io" },
-		{ href: "./website.html", label: "project page" },
 	],
 	projects: [],
 	projectsHeader: "Projects",
@@ -22,15 +21,7 @@ const indexData = {
 
 // Additional projects that don't have dedicated pages
 export const displayOnlyProjects: ProjectProps[] = [
-	{
-		title: "Analog Frequency Detector",
-		descriptions: ["For a high school analog electronics class"],
-		yt: {
-			url: "https://www.youtube.com/watch?v=t7b9YMaFg1c",
-			title: "Analog Frequency Detector Video",
-		},
 
-	},
 	{
 		title: "Web Dev Project",
 		descriptions: [

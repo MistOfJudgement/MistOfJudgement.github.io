@@ -29,7 +29,7 @@ export const BadApplePage: PageConfig = {
 	contentBuilder: BadAppleContent,
 	contentData: {},
 	navLabel: "Bad Apple Terminal",
-	navOrder: "b-badapple-terminal",
+	navOrder: "b-2021-09-badapple-terminal",
 	navCategory: "Projects",
 	projectInfo: {
 		title: "Bad Apple in Terminal",

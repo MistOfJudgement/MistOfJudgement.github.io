@@ -10,6 +10,7 @@ import { BadAppleCelestePage } from "./pages/projects/bad_apple_celeste.blueprin
 import { PageConfig } from "./architect";
 import type { ProjectProps } from "./components/Project";
 import type { NavItem } from "./components/Navigation";
+import { AnalogFrequencyDetectorPage } from "./pages/projects/analog_frequency.blueprint";
 const outputDir = "build";
 
 const testPage = `
@@ -134,14 +135,15 @@ setupBuildDirectory();
 writePage("test.html", testPage);
 
 // Collect all pages - using type assertion for mixed page types
-const allPages = [
+const allPages = ([
 	IndexPage,
 	AboutPage,
 	ContactPage,
 	WebsitePage,
 	BadApplePage,
 	BadAppleCelestePage,
-] as PageConfig<unknown>[];
+	AnalogFrequencyDetectorPage,
+] as PageConfig<unknown>[]).sort((a, b) => sortOrder(a.navOrder, b.navOrder));
 
 // NEW WAY: All pages use the same clean pattern with dynamic navigation!
 allPages.forEach((page) => {
