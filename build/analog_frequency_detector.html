@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Analog Frequency Detector</title>
+		<link rel="stylesheet" href="./static/clean.css" />
+	</head>
+	
+	<body>
+		<header>
+			<h1>Analog Frequency Detector</h1>
+		</header>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li>Projects
+					<ul>
+						<li><a href="website.html">Website</a></li>
+						<li><a href="analog_frequency_detector.html">Analog Frequency Detector</a></li>
+						<li><a href="bad_apple_celeste.html">Bad Apple Celeste</a></li>
+						<li><a href="bad_apple_terminal.html">Bad Apple Terminal</a></li>
+					</ul>
+				</li>
+				<li><a href="about.html">About</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</nav>
+		<main>
+			
+			<h2>Problem & Purpose</h2>
+			<p>I took an analog electronics class in high school and the final project
+				was to demonstrate that we could recreate a schematic that could sort of filter
+				certain frequencies. We were asked to demonstrate this on the circuit simulator
+				<a href="https://www.falstad.com/circuit/circuitjs.html">Falstad</a> but I
+			had the opportunity to just build the circuit myself.</p>
+			
+			<h2>Technical Implementation</h2>
+			<p>Unfortunately, I don't remember the schematic, but I can assume it was a
+				set of 3 band pass filters for low, mid, and high frequencies. Each could modulated
+			by a potentiometer.</p>
+			
+			<p>I couldn't upload the video as a submission so I uploaded it to YouTube.</p>
+			<div class="container"><a href="https://www.youtube.com/watch?v=t7b9YMaFg1c" target="_blank" rel="noopener noreferrer" class="youtube-thumbnail-link"><figure class="youtube-thumbnail-figure">
+						<figcaption class="youtube-thumbnail-caption">Watch on YouTube</figcaption>
+						<img src="https://img.youtube.com/vi/t7b9YMaFg1c/maxresdefault.jpg" alt="Analog Frequency Detector Video" width="320" height="180" loading="lazy" class="youtube-thumbnail-img">
+				</figure></a></div>
+				
+				
+			</main>
+			
+			<footer>
+				<div id="footer">
+					<button onclick="toggleCSS()">Toggle CSS</button>
+				</div>
+				<script>
+					function disableCSSStyle() {
+					document.styleSheets[0].disabled = true;
+					}
+					function enableCSSStyle() {
+					document.styleSheets[0].disabled = false;
+					}
+					function toggleCSS() {
+					if (document.styleSheets[0].disabled) {
+					enableCSSStyle();
+					} else {
+					disableCSSStyle();
+					}
+					}
+				</script>
+			</footer>
+			
+		</body>
+		
+	</html>

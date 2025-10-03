@@ -22,15 +22,7 @@ const indexData = {
 
 // Additional projects that don't have dedicated pages
 export const displayOnlyProjects: ProjectProps[] = [
-	{
-		title: "Analog Frequency Detector",
-		descriptions: ["For a high school analog electronics class"],
-		yt: {
-			url: "https://www.youtube.com/watch?v=t7b9YMaFg1c",
-			title: "Analog Frequency Detector Video",
-		},
 
-	},
 	{
 		title: "Web Dev Project",
 		descriptions: [
