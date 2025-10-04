@@ -47,6 +47,7 @@
 						<li><a href="analog_frequency_detector.html">Analog Frequency Detector</a></li>
 						<li><a href="bad_apple_celeste.html">Bad Apple Celeste</a></li>
 						<li><a href="bad_apple_terminal.html">Bad Apple Terminal</a></li>
+						<li><a href="web_dev_project.html">Web Dev Project</a></li>
 					</ul>
 				</li>
 				<li><a href="about.html">About</a></li>
@@ -127,7 +128,7 @@
 									<ul>
 										<li>Partial recreation of Keep Talking and Nobody Explodes</li>
 										<li>HTML, CSS, JavaScript, Custom HTML Elements, SVG</li>
-										<li><a href="static/bombs.html">Play here</a></li>
+										<li><a href="./bombs.html">Play here</a></li>
 										<li><a href="https://github.com/MistOfJudgement/MistOfJudgement.github.io/blob/main/bombs.html">GitHub Repo</a></li>
 									</ul>
 									<img src="static/img/bomb_preview.png" alt="Web Dev Project Screenshot" loading="lazy" width="400" height="250" class="responsive-img" style="max-width: 100%; height: auto;">
@@ -209,82 +210,153 @@
 															<img src="https://img.youtube.com/vi/zuSD_I9mtzo/maxresdefault.jpg" alt="Projector board Video" width="320" height="180" loading="lazy" class="youtube-thumbnail-img">
 													</figure></a></div>
 												</li>
-											</ul>
-										</section>
+												
+												<li>
+													<h4>Dtx Download</h4>
+													<ul>
+														<li>Automated Download tool for DTXMania files</li>
+														<li>Typescript</li>
+														<li>Electron</li>
+														<li><a href="github.com/MistOfJudgement/dtxdownload">Github Repo</a></li>
+													</ul>
+													<img src="https://github.com/MistOfJudgement/dtxdownload/blob/main/docs/images/dtx-main-interface-selected.png?raw=true" alt="Dtx Download Screenshot" loading="lazy" width="400" height="250" class="responsive-img" style="max-width: 100%; height: auto;">
+													</li>
+													
+													<li>
+														<h4>Playlist DL</h4>
+														<ul>
+															<li>Download Youtube Playlists</li>
+															<li>Android</li>
+															<li>Java</li>
+															<li>Kinda just a wrapper around yt-dlp</li>
+															<li><a href="https://github.com/MistOfJudgement/PlaylistDL">Github Repo</a></li>
+														</ul>
+														
+													</li>
+													
+													<li>
+														<h4>Rabbit and Steel Randomizer</h4>
+														<ul>
+															<li>Text Randomizer for the game Rabbit and Steel</li>
+															<li>C#</li>
+															<li>Game modding</li>
+															<li>Decompilation</li>
+															<li><a href="https://github.com/MistOfJudgement/RNSReloaded.Randomizer">Github Repo</a></li>
+														</ul>
+														<div class="container"><a href="https://www.youtube.com/watch?v=w5fo45Mt-mc" target="_blank" rel="noopener noreferrer" class="youtube-thumbnail-link"><figure class="youtube-thumbnail-figure">
+																	<figcaption class="youtube-thumbnail-caption">Watch on YouTube</figcaption>
+																	<img src="https://img.youtube.com/vi/w5fo45Mt-mc/maxresdefault.jpg" alt="Rabbit and Steel Randomizer Video" width="320" height="180" loading="lazy" class="youtube-thumbnail-img">
+															</figure></a></div>
+														</li>
+														
+														<li>
+															<h4>Custom Arcade Cabinet</h4>
+															<ul>
+																<li>Building a custom arcade cabinet for Touhou games</li>
+																<li>Woodworking</li>
+																<li>Electronics</li>
+															</ul>
+															
+														</li>
+														
+														<li>
+															<h4>Travel Cluster</h4>
+															<ul>
+																<li>Automated address scraper and location clustering</li>
+																<li>Python</li>
+																<li>Puppeteer</li>
+																<li>Scikit-learn</li>
+																<li><a href="https://github.com/MistOfJudgement/travel-cluster">Github Repo</a></li>
+															</ul>
+															
+														</li>
+														
+														<li>
+															<h4>Hide and Seek</h4>
+															<ul>
+																<li>Partial recreation of Jetlag: the Game, hide and seek</li>
+																<li>Made for a game jam</li>
+																<li>Express, React</li>
+																<li><a href="https://github.com/MistOfJudgement/hideandseek">Github Repo</a></li>
+															</ul>
+															
+														</li>
+													</ul>
+												</section>
+												
+											</main>
+											
+											<footer>
+												<p>This website is still in development. Thanks for stopping by!</p>
+												<script>
+													function updateIframeTheme(selectedTheme) {
+													// Update all iframes on the page to match the main page theme
+													const iframes = document.querySelectorAll('iframe');
+													iframes.forEach(iframe => {
+													try {
+													// Check if iframe is loaded and accessible (same origin)
+													const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+													const iframeStylesheet = iframeDoc.getElementById('main-stylesheet');
+													
+													if (iframeStylesheet) {
+													if (selectedTheme === 'none') {
+													// No CSS option - disable stylesheet
+													iframeStylesheet.disabled = true;
+													} else {
+													// Enable stylesheet and set the href
+													iframeStylesheet.disabled = false;
+													iframeStylesheet.href = selectedTheme;
+													}
+													}
+													} catch (e) {
+													// Iframe might not be loaded yet or cross-origin, ignore
+													console.log('Could not access iframe stylesheet:', e.message);
+													}
+													});
+													}
+													
+													function switchStylesheet() {
+													const dropdown = document.getElementById('stylesheet-dropdown');
+													const stylesheet = document.getElementById('main-stylesheet');
+													const selectedTheme = dropdown.value;
+													
+													if (selectedTheme === 'none') {
+													// No CSS option - disable stylesheet
+													stylesheet.disabled = true;
+													} else {
+													// Enable stylesheet and set the href
+													stylesheet.disabled = false;
+													stylesheet.href = selectedTheme;
+													}
+													
+													// Update iframes to match
+													updateIframeTheme(selectedTheme);
+													
+													// Save user's preference in cookies
+													setCookie('preferred-theme', selectedTheme);
+													}
+													
+													// Set initial dropdown value on page load
+													document.addEventListener('DOMContentLoaded', function() {
+													const dropdown = document.getElementById('stylesheet-dropdown');
+													dropdown.addEventListener('change', switchStylesheet);
+													
+													// Set dropdown to match the already-applied theme
+													const savedTheme = getCookie('preferred-theme');
+													if (savedTheme) {
+													dropdown.value = savedTheme;
+													}
+													
+													// Update iframes after a short delay to ensure they're loaded
+													setTimeout(() => {
+													if (savedTheme) {
+													updateIframeTheme(savedTheme);
+													}
+													}, 500);
+													});
+												</script>
+											</footer>
+											
+										</body>
 										
-									</main>
-									
-									<footer>
-										<p>This website is still in development. Thanks for stopping by!</p>
-										<script>
-											function updateIframeTheme(selectedTheme) {
-											// Update all iframes on the page to match the main page theme
-											const iframes = document.querySelectorAll('iframe');
-											iframes.forEach(iframe => {
-											try {
-											// Check if iframe is loaded and accessible (same origin)
-											const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-											const iframeStylesheet = iframeDoc.getElementById('main-stylesheet');
-											
-											if (iframeStylesheet) {
-											if (selectedTheme === 'none') {
-											// No CSS option - disable stylesheet
-											iframeStylesheet.disabled = true;
-											} else {
-											// Enable stylesheet and set the href
-											iframeStylesheet.disabled = false;
-											iframeStylesheet.href = selectedTheme;
-											}
-											}
-											} catch (e) {
-											// Iframe might not be loaded yet or cross-origin, ignore
-											console.log('Could not access iframe stylesheet:', e.message);
-											}
-											});
-											}
-											
-											function switchStylesheet() {
-											const dropdown = document.getElementById('stylesheet-dropdown');
-											const stylesheet = document.getElementById('main-stylesheet');
-											const selectedTheme = dropdown.value;
-											
-											if (selectedTheme === 'none') {
-											// No CSS option - disable stylesheet
-											stylesheet.disabled = true;
-											} else {
-											// Enable stylesheet and set the href
-											stylesheet.disabled = false;
-											stylesheet.href = selectedTheme;
-											}
-											
-											// Update iframes to match
-											updateIframeTheme(selectedTheme);
-											
-											// Save user's preference in cookies
-											setCookie('preferred-theme', selectedTheme);
-											}
-											
-											// Set initial dropdown value on page load
-											document.addEventListener('DOMContentLoaded', function() {
-											const dropdown = document.getElementById('stylesheet-dropdown');
-											dropdown.addEventListener('change', switchStylesheet);
-											
-											// Set dropdown to match the already-applied theme
-											const savedTheme = getCookie('preferred-theme');
-											if (savedTheme) {
-											dropdown.value = savedTheme;
-											}
-											
-											// Update iframes after a short delay to ensure they're loaded
-											setTimeout(() => {
-											if (savedTheme) {
-											updateIframeTheme(savedTheme);
-											}
-											}, 500);
-											});
-										</script>
-									</footer>
-									
-								</body>
-								
-							</html>
+									</html>

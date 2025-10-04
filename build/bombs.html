@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bombs</title>
+		<script>
+			// Cookie helper functions
+			function setCookie(name, value, days = 365) {
+			const expires = new Date(Date.now() + days * 864e5).toUTCString();
+			document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+			}
+			
+			function getCookie(name) {
+			return document.cookie.split('; ').reduce((r, v) => {
+			const parts = v.split('=');
+			return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+			}, '');
+			}
+			
+			// Apply saved theme immediately to prevent flicker
+			const savedTheme = getCookie('preferred-theme');
+			if (savedTheme) {
+			if (savedTheme === 'none') {
+			// No CSS - we'll disable it after the link loads
+			document.write('<link id="main-stylesheet" rel="stylesheet" href="./static/clean.css" disabled />');
+			} else {
+			document.write('<link id="main-stylesheet" rel="stylesheet" href="' + savedTheme + '" />');
+			}
+			} else {
+			document.write('<link id="main-stylesheet" rel="stylesheet" href="./static/clean.css" />');
+			}
+		</script>
+	</head>
+	
+	<body>
+		<header>
+			<h1>Bombs</h1>
+		</header>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><span>Projects</span>
+					<ul>
+						<li><a href="website.html">Website</a></li>
+						<li><a href="analog_frequency_detector.html">Analog Frequency Detector</a></li>
+						<li><a href="bad_apple_celeste.html">Bad Apple Celeste</a></li>
+						<li><a href="bad_apple_terminal.html">Bad Apple Terminal</a></li>
+						<li><a href="web_dev_project.html">Web Dev Project</a></li>
+					</ul>
+				</li>
+				<li><a href="about.html">About</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+			<div class="theme-selector">
+				<label for="stylesheet-dropdown">Theme:</label>
+				<select id="stylesheet-dropdown" onchange="switchStylesheet()">
+					<option value="./static/clean.css">Clean (Original)</option>
+					<option value="./static/modern.css">Modern Dark</option>
+					<option value="">No CSS</option>
+				</select>
+			</div>
+		</nav>
+		<main>
+			<p><a href="./web_dev_project.html">Return to Web Dev Project Page</a></p><a href="https://www.bombmanual.com/web/index.html">BOMB MANUAL</a>
+			
+			<ktane-bomb></ktane-bomb>
+			<style>
+				
+				
+				ktane-bomb {
+				border: 1px solid black;
+				margin: 10px auto;
+				display: flex;
+				justify-content: center;
+				width: 100%;
+				max-width: 1000px;
+				}
+				
+				/* each module should be placed in a 3x2 grid */
+				
+				.module-container {
+				width: auto;
+				border: 3px solid gray;
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				background-color: darkgray;
+				}
+				
+				.module-container>* {
+				display: inline-block;
+				border: 3px solid gray;
+				width: 15vw;
+				height: 15vw;
+				}
+				
+				.info-container {
+				display: inline-block;
+				width: auto;
+				height: 100%;
+				border: 1px solid black;
+				}
+				
+				path:not(.wire) {
+				fill: none;
+				stroke: #000000;
+				stroke-width: 3px;
+				stroke-linecap: butt;
+				stroke-linejoin: miter;
+				stroke-opacity: 1
+				}
+				
+				.empty path {
+				fill: black
+				}
+				
+				.wires path {
+				fill: gray;
+				}
+				
+				.led {
+				fill: gray;
+				}
+				
+				.module-container .solved .led {
+				fill: lime;
+				}
+				
+				bomb-module .led {
+				fill: black;
+				}
+				
+				.module:hover .module-border {
+				stroke-width: 5px;
+				
+				}
+				
+				.wire {
+				stroke-width: 4px;
+				stroke-linecap: round;
+				}
+				
+				wires-module:not(.solved) .wire:not(.cut):hover {
+				stroke-width: 5px;
+				}
+				
+				.wire.cut {
+				stroke-dasharray: 25%, 25%;
+				stroke-dashoffset: 0;
+				}
+				
+				.timer-number {
+				justify-content: center;
+				text-align: center;
+				}
+				
+				.strikes {
+				color: red;
+				text-align: center;
+				}
+				
+				keypad-module {
+				display: inline-block;
+				width: auto;
+				height: auto;
+				grid-template-columns: repeat(2, 1fr);
+				}
+				
+				.keypad-button:hover .keypad-bounding {
+				stroke: yellow;
+				}
+				
+				keypad-module .pressed-right .keypad-led {
+				fill: lime;
+				}
+				
+				keypad-module .pressed-wrong .keypad-led {
+				fill: red;
+				}
+				
+				.button:hover .push-button {
+				stroke: yellow;
+				}
+			</style>
+			<script>
+				
+				// Its more important to setup the bomb handler code before setting up the dom elements
+				class BombModule extends HTMLElement {
+				
+				connectedCallback() {
+				this.innerHTML = `
+				<svg viewbox="0 0 93 93">
+					<path class="module-border" d="M 4.5815869,4.3692536 H 33.806554 l 2.375168,-2.375175 h 17.55564 l 2.32354,2.323541 h 6.55754 l 3.48531,3.485309 v 4.1049204 l 3.9577,6.854929 6.11197,3.528747 h 5.44641 l 3.84415,3.84415 v 7.561813 l 2.2603,2.260296 V 55.17732 l -1.43754,2.489891 v 30.969084 h -29.34806 l -2.37517,2.37517 h -18.58832 l -2.117004,-2.117 H 3.4456359 V 58.269135 L 1.6194449,55.106076 V 36.464675 l 2.800871,-2.800874 z" />
+					<circle cx="78" cy="11" r="8"></circle>
+					<circle cx="78" cy="11" r="5" class="led"></circle>
+				</svg>
+				`;
+				this.classList += 'module';
+				this.parent = this?.parentNode?.parentNode;
+				}
+				defuseModule() {
+				this.querySelector(".led").getAnimations().forEach(anim => anim.cancel());
+				this.classList.add("solved");
+				this.parent.completeModule();
+				}
+				strikeOut() {
+				this.parent.strikeOut();
+				this.querySelector(".led").animate([
+				{ fill: "red" },
+				{ fill: "gray" }
+				], { duration: 1000, iterations: 1, easing: "ease-in" });
+				}
+				}
+				customElements.define('bomb-module', BombModule);
+				
+				class Bomb extends HTMLElement {
+				indicatorList = ["SND", "CLR", "CAR", "IND", "FRQ", "SIG", "NSA", "MSA", "TRN", "BOB", "FRK"];
+				portList = [""]
+				constructor() {
+				super();
+				//Serial is 5 random characters and a number
+				this.totalSolved = 0;
+				this.totalStrikes = this.getAttribute("one-strike") ? 1 : 3;
+				this.strikes = 0;
+				this.serial = this.randomSerial();
+				this.edgework = this.randomEdgework();
+				this.destroyed = false;
+				}
+				strikeOut() {
+				this.strikes++;
+				if (this.strikes >= this.totalStrikes) {
+				this.destruct();
+				}
+				this.querySelector("timer-module").addStrike();
+				}
+				completeModule() {
+				this.totalSolved++;
+				if (this.totalSolved === this.numberOfModules) {
+				//Create a new bomb and replace this one
+				let newBomb = document.createElement('ktane-bomb');
+				(document.querySelector('main') || document.querySelector('body')).appendChild(newBomb);
+				newBomb.animate([
+				{ transform: "translateY(100vh)" },
+				{ transform: "translateY(0)" }
+				], { duration: 1000, iterations: 1, easing: "ease-out" });
+				this.animate([
+				{ transform: "translateX(100vw)" }
+				], { duration: 500, iterations: 1, easing: "ease-out" }).onfinish = () => this.remove();
+				// this.remove();
+				}
+				}
+				randomSerial() {
+				let serial = "";
+				for (let i = 0; i < 5; i++) {
+				serial += String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+				}
+				serial += Math.floor(Math.random() * 10);
+				return serial;
+				}
+				randomEdgework() {
+				let numAABatteries = Math.floor(Math.random() * 3) * 2;
+				let numDBatteries = Math.floor(Math.random() * 3);
+				let numIndicators = Math.floor(Math.random() * 3);
+				let numPorts = Math.floor(Math.random() * 3);
+				let edgework = [];
+				for (let i = 0; i < numAABatteries; i++) {
+				edgework.push({ type: "battery", value: "AA" });
+				}
+				for (let i = 0; i < numDBatteries; i++) {
+				edgework.push({ type: "battery", value: "D" });
+				}
+				for (let i = 0; i < numIndicators; i++) {
+				edgework.push({ type: "indicator", value: this.indicatorList[Math.floor(Math.random() * this.indicatorList.length)], lit: (Math.random() > 0.5) ? "on" : "off" });
+				}
+				for (let i = 0; i < numPorts; i++) {
+				edgework.push({ type: "port", value: Math.floor(Math.random() * 4) });
+				}
+				//shuffle the edgework
+				for (let i = edgework.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				[edgework[i], edgework[j]] = [edgework[j], edgework[i]];
+				}
+				return edgework;
+				}
+				connectedCallback() {
+				if (this.moduleDiv === undefined) {
+				this.moduleDiv = document.createElement('div');
+				this.moduleDiv.classList.add('module-container');
+				this.appendChild(this.moduleDiv);
+				}
+				if (this.infoDiv === undefined) {
+				this.infoDiv = document.createElement('div');
+				this.infoDiv.classList.add('info-container');
+				this.appendChild(this.infoDiv);
+				}
+				if (this.serial === undefined) {
+				this.serial = this.randomSerial();
+				}
+				this.initializeModules(this.generateRandomModules());
+				let serialDiv = document.createElement('serial-number');
+				this.infoDiv.appendChild(serialDiv);
+				this.initializeEdgework();
+				}
+				generateRandomModules() {
+				this.numberOfModules = Math.floor(Math.random() * 5) + 1;
+				
+				let modules = ["timer-module"]
+				let implementedModules = ["wires-module", "button-module", "keypad-module"];
+				for (let i = 0; i < this.numberOfModules; i++) {
+				modules.push(implementedModules[Math.floor(Math.random() * implementedModules.length)]);
+				}
+				for (let i = modules.length; i < 6; i++) {
+				modules.push("bomb-module");
+				}
+				//shuffle
+				for (let i = modules.length - 1; i > 0; i--) {
+				let j = Math.floor(Math.random() * (i + 1));
+				[modules[i], modules[j]] = [modules[j], modules[i]];
+				}
+				return modules;
+				}
+				initializeModules(modules) {
+				this.modules = [];
+				for (const element of modules) {
+				let module = document.createElement(element);
+				if (element === "timer-module") {
+				this.timer = module;
+				}
+				this.modules.push(module);
+				this.querySelector('.module-container').appendChild(module);
+				}
+				}
+				initializeEdgework() {
+				for (const element of this.edgework) {
+				let info = element;
+				if (info.type === "indicator") {
+				let indicator = document.createElement("ktane-indicator");
+				indicator.setAttribute("lit", info.lit);
+				indicator.setAttribute("value", info.value);
+				this.infoDiv.appendChild(indicator);
+				} else if (info.type === "battery") {
+				let battery = document.createElement("ktane-battery");
+				battery.setAttribute("value", info.value);
+				this.infoDiv.appendChild(battery);
+				} else if (info.type === "port") {
+				let port = document.createElement("ktane-port");
+				port.setAttribute("value", info.value);
+				this.infoDiv.appendChild(port);
+				}
+				}
+				}
+				numBatteries() {
+				let total = 0;
+				for (const element of this.edgework) {
+				if (element.type === "battery") {
+				total += element.value === "AA" ? 2 : 1;
+				}
+				}
+				return total;
+				}
+				hasIndicator(label) {
+				for (const element of this.modules) {
+				if (element.type === "indicator" && element.value === label) {
+				return element;
+				}
+				}
+				return false;
+				}
+				destruct() {
+				if (this.destroyed) {
+				return;
+				}
+				this.destroyed = true;
+				let newBomb = document.createElement('ktane-bomb');
+				(document.querySelector('main') || document.querySelector('body')).appendChild(newBomb);
+				newBomb.animate([
+				{ transform: "translateY(100vh)" },
+				{ transform: "translateY(0)" }
+				], { duration: 1000, iterations: 1, easing: "ease-out" });
+				this.animate([
+				{ transform: "translateX(-100vw)" }
+				], { duration: 500, iterations: 1, easing: "ease-out" }).onfinish = () => this.remove();
+				}
+				}
+				customElements.define('ktane-bomb', Bomb);
+				
+				class TimerModule extends HTMLElement {
+				
+				intervalCallback() {
+				if (this.timeRemaining <= 0) {
+				this.parent.destruct();
+				}
+				
+				this.timeElapsed += Date.now() - this.lastTime;
+				this.lastTime = Date.now();
+				this.timeRemaining = this.timeLimit - this.timeElapsed;
+				this.querySelector(".timer-number").innerHTML = this.timerString();
+				// console.log(this.timeRemaining);
+				}
+				connectedCallback() {
+				this.innerHTML = "<p class='timer-number'></p><p class='strikes'></p>";
+				this.parent = this?.parentNode?.parentNode;
+				this.timeLimit = this.parent.numberOfModules * 15 * 1000;
+				this.timeElapsed = 0;
+				this.lastTime = Date.now();
+				this.intervalTimer = setInterval(this.intervalCallback.bind(this), 7);
+				}
+				disconnectedCallback() {
+				clearInterval(this.intervalTimer);
+				}
+				addStrike() {
+				this.querySelector(".strikes").innerHTML += "X";
+				}
+				timerString() {
+				if (this.timeRemaining > 60000) {
+				return `${Math.floor(this.timeRemaining / 60000)}:${("00" + Math.floor((this.timeRemaining % 60000) / 1000)).slice(-2)}`;
+				} else {
+				return `${Math.floor(this.timeRemaining / 1000)}:${("00" + (Math.floor((this.timeRemaining % 1000) / 10))).slice(-2)}`;
+				}
+				}
+				}
+				customElements.define("timer-module", TimerModule);
+				
+				class WiresModule extends BombModule {
+				//Wires are stored as an array of {color:string, position:int}
+				constructor() {
+				super();
+				this.type = "wires";
+				
+				}
+				connectedCallback() {
+				super.connectedCallback();
+				this.generateRandomWires();
+				// this.parent = this?.parentNode?.parentNode;
+				this.children[0].innerHTML += `
+				<rect x="6.536" y="7.088" width="11.657" height="75.949" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+				<rect x="70.827" y="26.163" width="10.597" height="55.46" style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);"></rect>
+				<path class="wire w1" d="M 11.206 15.409 L 75.851 32.012"></path>
+				<path class="wire w2" d="M 10.853 27.773 L 75.851 41.196"></path>
+				<path class="wire w3" d="M 11.206 41.903 L 76.204 50.734"></path>
+				<path class="wire w4" d="M 11.913 52.147 L 76.204 60.272"></path>
+				<path class="wire w5" d="M 11.56 64.157 L 76.204 68.043"></path>
+				<path class="wire w6" d="M 12.266 75.108 L 76.204 76.168"></path>
+				`;
+				this.querySelectorAll(".wire").forEach(wire => wire.style.display = "none");
+				for (let i = 0; i < this.wires.length; i++) {
+				let wire = this.querySelector(`.wire.w${this.wires[i].position + 1}`);
+				wire.style.display = "";
+				wire.style.stroke = this.wires[i].color;
+				this.wires[i].clickListener = wire.addEventListener("click", () => {
+				this.cutWire(i);
+				}, { once: true });
+				
+				}
+				}
+				disconnectedCallback() {
+				// super.disconnectedCallback();
+				this.wires.forEach(wire => removeEventListener("click", wire.clickListener));
+				}
+				cutWire(wireIndex) {
+				if (this.classList.contains("solved")) {
+				return;
+				}
+				let wire = this.wires[wireIndex];
+				this.querySelector(`.wire.w${wire.position + 1}`).classList.add("cut");
+				wire.cut = true;
+				// console.log(this.getCorrectWire())
+				if (this.getCorrectWire() === wireIndex) {
+				for (const element of this.wires) {
+				if (element.cut === false) {
+				this.querySelector(`.wire.w${element.position + 1}`).removeEventListener("click", element.clickListener);
+				}
+				}
+				this.defuseModule();
+				} else {
+				this.strikeOut();
+				}
+				}
+				randomColor() {
+				let colors = ["red", "blue", "yellow", "black", "white"];
+				return colors[Math.floor(Math.random() * colors.length)];
+				}
+				generateRandomWires() {
+				//between 3-6 wires (inclusive)
+				let numberOfWires = Math.floor(Math.random() * 4) + 3;
+				// console.log(numberOfWires);
+				let t_wires = [];
+				for (let i = 0; i < numberOfWires; i++) {
+				t_wires.push(this.randomColor());
+				}
+				for (let i = numberOfWires; i < 6; i++) {
+				t_wires.push("");
+				}
+				//shuffle
+				for (let i = t_wires.length - 1; i > 0; i--) {
+				let j = Math.floor(Math.random() * (i + 1));
+				[t_wires[i], t_wires[j]] = [t_wires[j], t_wires[i]];
+				}
+				
+				this.wires = [];
+				for (let i = 0; i < t_wires.length; i++) {
+				if (t_wires[i] !== "") {
+				this.wires.push({
+				color: t_wires[i],
+				position: i,
+				});
+				}
+				}
+				
+				}
+				colorCount(color) {
+				return this.wires.filter(wire => wire.color === color).length;
+				}
+				lastColorIndex(color) {
+				for (let i = this.wires.length - 1; i >= 0; i--) {
+				if (this.wires[i].color === color) {
+				return i;
+				}
+				}
+				return -1;
+				}
+				getCorrectWire() {
+				if (this.wires.length === 3) {
+				//If there are no red wires, return 1
+				if (this.wires.filter(wire => wire.color === "red").length === 0) {
+				return 1;
+				}
+				//Otherwise, if the last wire is white, return 2
+				else if (this.wires[2].color === "white") {
+				return 2;
+				}
+				//Otherwise, if there is more than one blue wire, return the index of the last blue wire
+				else if (this.colorCount("blue") > 1) {
+				return this.lastColorIndex("blue");
+				}
+				//Otherwise return the index of the last wire
+				else {
+				return this.wires.length - 1;
+				}
+				} else if (this.wires.length === 4) {
+				//If there is more than one red wire and the last digit of the serial number is odd, return the index of the last red wire
+				if (this.colorCount("red") > 1 && this.parent.serial.charAt(this.parent.serial.length - 1) % 2 === 1) {
+				return this.lastColorIndex("red");
+				}
+				//Otherwise, if the last wire is yellow and there are no red wires, return 0
+				else if (this.wires[3].color === "yellow" && this.colorCount("red") === 0) {
+				return 0;
+				}
+				//Otherwise, if there is exactly one blue wire, return 0
+				else if (this.colorCount("blue") === 1) {
+				return 0;
+				}
+				//Otherwise, if there is more than one yellow wire, return the last wire
+				else if (this.colorCount("yellow") > 1) {
+				return this.wires.length - 1;
+				}
+				//Otherwise, return the second wire
+				else {
+				return 1;
+				}
+				} else if (this.wires.length === 5) {
+				//If the last wire is black and the last digit of the serial number is odd, return the fourth wire
+				if (this.wires[4].color === "black" && this.parent.serial.charAt(this.parent.serial.length - 1) % 2 === 1) {
+				return 3;
+				}
+				//Otherwise, if there is exactly one red wire and there is more than one yellow wire, return the first wire
+				else if (this.colorCount("red") === 1 && this.colorCount("yellow") > 1) {
+				return 0;
+				}
+				//Otherwise, if there are no black wires, return the second wire
+				else if (this.colorCount("black") === 0) {
+				return 1;
+				}
+				//Otherwise, return the first wire
+				else {
+				return 0;
+				}
+				} else if (this.wires.length === 6) {
+				//If there are no yellow wires and the last digit or the serial number is odd, return the third wire
+				if (this.colorCount("yellow") === 0 && this.parent.serial.charAt(this.parent.serial.length - 1) % 2 === 1) {
+				return 2;
+				}
+				//Otherwise, if there is exactly one yellow wire and there is more than one white wire, return the fourth wire
+				else if (this.colorCount("yellow") === 1 && this.colorCount("white") > 1) {
+				return 3;
+				}
+				//Otherwise, if there are no red wires, return the last wire
+				else if (this.colorCount("red") === 0) {
+				return this.wires.length - 1;
+				}
+				//Otherwise, return the fourth wire
+				else {
+				return 3;
+				}
+				}
+				return -1;
+				}
+				}
+				customElements.define("wires-module", WiresModule);
+				
+				class ButtonModule extends BombModule {
+				colors = ["red", "blue", "yellow", "black", "white"];
+				words = ["Hold", "Detonate", "Press", "Abort"];
+				stripColors = [
+				{ color: "red", number: "1" },
+				{ color: "blue", number: "4" },
+				{ color: "yellow", number: "5" },
+				{ color: "white", number: "1" }
+				];
+				constructor() {
+				super();
+				this.type = "button";
+				this.holding = false;
+				this.interactionTime = 0;
+				}
+				connectedCallback() {
+				super.connectedCallback();
+				this.text = this.words[Math.floor(Math.random() * this.words.length)];
+				this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
+				this.children[0].innerHTML += `<g class="button">
+					<circle class="push-button" cx="37" cy="48" r="28" fill="${this.color}" stroke="black" stroke-width="2"></circle>
+					<text class="button-text" x="37" y="48" text-anchor="middle" alignment-baseline="middle" text-length="40" font-size="10pt" lengthAdjust="spacing" fill="${(this.color === "white" || this.color === "yellow") ? "black" : "white"}">${this.text}</text>
+				</g>
+				<rect class="color-indicator" x="71" y="35" width="10" height="40"></rect>`;
+				this.querySelector(".button").addEventListener("mousedown", this.mouseDown.bind(this));
+				this.querySelector(".button").addEventListener("mouseup", this.mouseUp.bind(this));
+				}
+				holdInteraction() {
+				this.holding = true;
+				this.strip = this.stripColors[Math.floor(Math.random() * this.stripColors.length)];
+				this.querySelector(".color-indicator").style.fill = this.strip.color;
+				}
+				mouseDown() {
+				if (!this.classList.contains("solved")) {
+				this.interaction = setTimeout(this.holdInteraction.bind(this), 700);
+				}
+				}
+				
+				mouseUp() {
+				if (!this.classList.contains("solved")) {
+				this.completeInteraction();
+				clearTimeout(this.interaction);
+				this.holding = false;
+				this.querySelector(".color-indicator").style.fill = "";
+				}
+				}
+				
+				shouldPressAndRelease() {
+				console.log("shouldPressAndRelease");
+				return !this.holding;
+				}
+				
+				shouldRelease() {
+				console.log("shouldPressAndRelease");
+				
+				return this.holding && this.parent.timer.timerString().includes(this.strip.number);
+				}
+				buttonCheck() {
+				if (this.color === "blue" && this.text === "Abort") return this.shouldRelease();
+				if (this.parent.numBatteries() > 1 && this.text === "Detonate") return this.shouldPressAndRelease();
+				if (this.color === "white" && this.parent.hasIndicator("CAR")?.lit === "on") return this.shouldRelease();
+				if (this.parent.numBatteries() > 2 && this.parent.hasIndicator("FRK")?.lit === "on") return this.shouldPressAndRelease();
+				if (this.color === "yellow") return this.shouldRelease();
+				if (this.color === "red" && this.text === "Hold") return this.shouldPressAndRelease();
+				return this.shouldRelease();
+				}
+				completeInteraction() {
+				if (this.buttonCheck()) {
+				this.defuseModule();
+				} else {
+				this.strikeOut();
+				}
+				}
+				}
+				customElements.define("button-module", ButtonModule);
+				
+				class KeypadModule extends BombModule {
+				//key svgs are 64x64
+				keys = [ //Probably won't use this
+				"balloon",
+				"euro",
+				"copyright",
+				"six",
+				"pitchfork",
+				"at",
+				"pumpkin",
+				"paragraph",
+				"smileyface",
+				"upsidedowny",
+				"leftc",
+				"bt",
+				"tracks",
+				"squigglyn",
+				"doublek",
+				"squidknife",
+				"rightc",
+				"ae",
+				"hollowstar",
+				"meltedthree",
+				"hookn",
+				"questionmark",
+				"dragon",
+				"nwithhat",
+				"filledstar",
+				"omega"
+				];
+				keyToSVG = {
+				"balloon": `<path d="m 17.721079,30 c 0,-11.90001 6.317406,-16.959866 14.607707,-16.959866 8.290302,0 14.478092,4.613575 14.478092,16.959866 0,12.346291 -5.975002,16.796333 -14.458888,16.796333 -8.483888,0 -14.626911,-4.896323 -14.626911,-16.796333 m 14.490003,28.423942 0.146365,-11.597021 z" style="stroke:#000;stroke-width:4.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;transform:scale(1.875);"></path>`,
+				"copyright": "<text x='10' y='57.6' style='font-family:sans-serif;font-size:60.2px;transform:scale(1.875);'><tspan>&copy;</tspan></text>",
+				"euro": `<path d="m 20.492104,48.501229 h 2.690882 l 1.172949,5.623254 c 0,0 0.413982,1.414438 5.071278,1.379939 9.280003,-0.103394 12.602549,-5.190399 13.04043,-13.971889 l -13.937391,-0.069 -0.0345,-2.449392 h 13.971889 c -0.823143,-9.659578 -4.438972,-12.90479 -12.074472,-13.557907 -5.190774,-0.444003 -6.382221,2.2769 -6.382221,2.2769 -0.103496,0.517477 -0.517478,4.450305 -0.517478,4.450305 l -2.96687,0.069 -0.069,-7.693163 c 0,0 4.449861,-1.552434 9.797572,-1.552432 10.039061,3e-6 16.835263,7.003193 17.421738,17.318242 0.586474,10.315049 -7.167288,17.691913 -17.042255,17.766723 -9.107601,0.069 -10.004562,-1.793921 -10.004562,-1.793921 z" style="fill:#000000;stroke:#000000;stroke-width:0.37795276;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none;transform:scale(1.875);"></path>
+				<circle cx="28" cy="15.5" r="2.75" style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;transform:scale(1.875);"> </circle>
+				<circle cx="38" cy="15.5" r="2.75" style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;transform:scale(1.875);"> </circle>`,
+				"hookn": `<path d="m 18.568336,19.217077 c 2.186319,-2.78199 17.247366,-7.328287 8.53933,14.693522 -6.862755,17.355266 -10.363195,1.110133 5.596904,-5.069861 20.796568,-8.052748 9.546534,-25.6147437 3.863831,1.517934 -2.882405,13.762353 7.31368,8.969608 7.31368,8.969608 0,0 -0.628261,16.571266 -12.005475,10.487541" style="stroke:#000;stroke-width:3.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;transform:scale(1.875);"></path>`,
+				"six": `<path d="m 48.075074,13.197436 c 0,0 -2.397323,0.09531 -4.487028,0.679456 -1.932186,0.540112 -11.251925,0.284913 -11.251925,0.284913 0,0 -10.489391,-0.469585 -10.739369,12.155549 -0.283735,14.330018 0.349722,11.473399 0.354045,11.447459 -0.428647,-1.815359 -0.452013,8.892009 10.739369,9.323188 C 41.822848,47.439863 45.187028,40.780055 45.43579,36.348632 45.625738,32.964918 44.385232,23.648506 35.168482,22.540873 31.261724,22.071374 21.45053,23.296539 21.950797,37.764813" style="fill:none;stroke:#000000;stroke-width:4.6;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;transform:scale(1.875);"></path>`,
+				"pitchfork": `<path d="m 14.170063,17.923228 3.59837,0.04736 c 0,0 2.604224,0.0052 2.70868,3.945682 l 0.256033,9.658566 c 0,0 0.840732,6.36216 5.352326,6.451328 l 4.8223,0.09531 -0.0036,-17.071554 c 0,0 0.250221,-2.991496 -1.668871,-2.991496 l -2.8774,0.008 0.0036,-1.784756 13.612194,0.03337 -0.0015,1.793479 -3.699193,0.02345 c 0,0 -1.324236,0.05915 -1.307761,2.980724 0.01932,3.425433 0.156773,17.023644 0.156773,17.023644 l 4.099137,-0.08345 c 0,0 6.682738,-0.36091 6.712242,-5.773183 0.02754,-5.052616 -0.04852,-10.450534 -0.04852,-10.450534 0,0 -0.210816,-4.150094 2.35305,-4.003434 1.450699,0.08298 0.102259,0.100541 4.072566,0.100541 0,0 -3.219521,1.906662 -3.219521,8.650915 0,11.368647 -2.220868,14.019898 -14.065844,14.019898 0,2.217718 -0.01309,3.967549 -0.01309,3.967549 0,0 -0.553383,4.44096 5.022754,4.503547 l 0.01043,0.751043 -13.675244,0.08345 -0.03876,-0.858934 c 3.722682,-0.174121 4.25433,-2.301008 4.29467,-4.481817 V 40.47288 c -8.183957,0 -13.414621,-0.158639 -13.414621,-13.421199 0,-7.091507 -1.963957,-8.389493 -3.0412,-9.128453 z" style="fill:#000000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;transform:scale(1.875);"></path>`,
+				"at": `<path d="m 10.806676,52.492715 c 0,-0.02255 4.1746,-7.946593 9.276889,-17.608995 l 9.276889,-17.568004 h 2.387288 2.387289 l 9.36503,17.566621 c 5.150766,9.661641 9.365029,17.585146 9.365029,17.607788 0,0.02264 -0.929415,0.03987 -2.065368,0.03828 l -2.065369,-0.0029 -3.618257,-6.54788 -3.618257,-6.547879 h -3.746138 -3.746138 v 6.550765 6.550764 H 32.22454 30.443516 l -0.0546,-1.439499 c -0.03003,-0.791724 -0.05485,-3.054242 -0.05514,-5.027816 -3.33e-4,-1.973575 -0.02506,-4.179764 -0.05504,-4.902643 l -0.05451,-1.314325 -3.971636,4.17e-4 -3.971636,4.17e-4 -3.171071,6.320903 -3.171071,6.320904 -2.566064,0.02207 c -1.411335,0.01206 -2.566064,0.0035 -2.566064,-0.019 z M 39.680111,35.780431 c 0,-0.150947 -7.71538,-14.620639 -7.765812,-14.564276 -0.06781,0.07579 -7.387985,14.268704 -7.467856,14.479255 -0.05251,0.138423 0.343156,0.146036 7.589135,0.146036 4.204494,0 7.644533,-0.02746 7.644533,-0.06101 z" style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.784;stroke-miterlimit:4;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;transform:scale(1.875);"></path>`,
+				"pumpkin": `<path d="m 37.5,54.375 h -9.375 c 0,0 -9.375,18.75 -9.375,30 0,11.25 3.75,22.5 16.875,22.5 13.125,0 15.782337,-11.25 27.032337,-11.25 11.25,0 14.217663,11.25 25.467663,11.25 11.25,0 16.875,-11.25 16.875,-22.5 0,-11.25 -9.375,-30 -9.375,-30 H 86.25 c 6.18911,9.533435 16.875,35.625 5.625,41.25 -9.375,1.875 -11.25,0 -16.875,-3.75 0,0 -6.876739,-3.906467 -12.501739,-3.906467 C 56.873261,87.968533 46.875,93.75 46.875,93.75 39.375,97.5 33.75,97.5 30,93.75 26.25,90 24.375,73.125 37.5,54.375 Z" style="fill:#000000;stroke:none;stroke-width:1.875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"></path>
+				<path d="m 61.875,46.875 h -3.75 V 41.25 H 67.5 v 7.5 c 0,0 0,7.5 -9.375,7.5 v -1.875 c 0,0 3.75,0 3.75,-7.5 z" style="fill:#000000;stroke:none;stroke-width:1.875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"></path>
+				<path d="m 46.875,35.625 v 5.625 c 0,0 3.671734,-2.551002 16.181328,-5.888386 6.095056,-1.626076 9.075105,5.711056 9.075105,5.711056 l 4.694018,1.4e-5 c 0,0 -0.625867,-10.952711 -9.779207,-11.265646 C 57.892907,29.494089 46.875,35.625 46.875,35.625 Z" style="fill:#000000;stroke:none;stroke-width:1.875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"></path>`,
+				"paragraph": `<path d="m 73.125,99.375 v -56.25 h -7.5 V 71.25 c 0,0 -18.75,1.875 -18.75,-15 0,-16.875 10.746387,-16.875 18.75,-16.875 h 15 v 3.75 h -3.75 v 56.25 z" style="fill:#000000;stroke:none;stroke-width:1.875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"></path>`,
+				"smileyface": `<path d="m 30.418377,48.234842 c -1.490535,-0.132407 -2.832056,-0.943387 -3.386311,-2.047101 -0.843134,-1.678975 -0.359805,-3.744754 1.285875,-5.495914 0.231919,-0.246784 0.455207,-0.492463 0.496194,-0.545953 0.06878,-0.08976 -0.04726,-0.09736 -1.506166,-0.09857 -3.901389,-0.0033 -7.353496,-0.655359 -9.665026,-1.825729 -0.533483,-0.270113 -1.371283,-0.842711 -1.779423,-1.216156 -0.432154,-0.395417 -1.081905,-1.240031 -1.458523,-1.895941 -0.587414,-1.023025 -1.014118,-2.348046 -1.193453,-3.705967 -0.19764,-1.496526 -0.0178,-3.753225 0.425314,-5.336935 l 0.03715,-0.132767 h 1.79973 c 1.68741,0 1.79584,0 1.79584,0 0,0 -0.20887,0.631381 -0.387281,1.150647 -0.427043,1.242912 -0.621714,2.192459 -0.666287,3.249936 -0.04157,0.986215 0.03592,1.617407 0.281023,2.288995 0.796675,2.182942 3.457963,3.636517 7.784564,4.251868 1.786454,0.254079 4.029278,0.359402 5.78105,0.271479 6.338287,-0.318124 9.984787,-0.977486 12.731626,-2.302139 0.989822,-0.477337 1.618848,-0.876018 2.346483,-1.487214 1.606315,-1.349268 2.570975,-3.151355 2.931486,-5.476324 0.04616,-0.297705 0.0778,-1.01119 0.07783,-1.755424 l 6.2e-5,-1.253859 1.751735,-5e-5 1.751735,-5e-5 0.01849,0.191774 c 0.07285,0.755525 0.08974,4.662146 -0.687932,6.726848 -0.367619,0.976017 -0.802643,1.873509 -1.722611,2.763147 -0.844176,0.816344 -1.692206,1.413808 -2.911703,2.051387 -3.003846,1.570474 -7.958998,2.910379 -12.273008,3.318701 -0.405677,0.0384 -0.773805,0.08893 -0.818064,0.112297 -0.0555,0.0293 0.108336,0.187073 0.52798,0.508443 0.449007,0.343856 0.674975,0.565513 0.862315,0.845867 0.521153,0.779903 0.787211,1.783756 0.79074,2.983521 0.0018,0.599501 -0.02105,0.781185 -0.148729,1.184726 -0.32629,1.031228 -1.115162,1.819286 -2.305881,2.303502 -0.774648,0.315017 -1.702094,0.449775 -2.566827,0.372959 z m 1.385688,-1.482627 c 0.685167,-0.174099 1.439995,-0.818572 1.743991,-1.48902 0.918195,-2.025036 -0.720499,-4.236333 -2.909515,-3.926176 -1.201888,0.170292 -2.171892,1.140295 -2.342184,2.342184 -0.125747,0.887496 0.151807,1.715047 0.788887,2.352126 0.727242,0.727242 1.689599,0.982407 2.718821,0.720886 z" style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.746;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;transform:scale(1.875);"></path>
+				<rect x="48" y="39" height="8" width="8" style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.47;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"></rect>
+				<rect x="59" y="39" height="8" width="8" style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.47;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"></rect>`,
+				"upsidedowny": `<path d="m 55.20891,46.800339 -9.957517,7.966015 0.221277,6.029831 11.285189,-8.906449 c 0,0 2.876615,4.978762 1.327669,7.6341 -5.06109,8.676161 -20.773306,39.927293 -20.773306,39.927293 l 8.271087,-0.09722 17.480977,-32.527896 c 6.20851,17.876185 8.998562,26.675073 15.454766,32.228384 3.747677,3.22357 15.103815,2.53173 16.630575,-6.560112 0.865425,-5.153597 -6.892661,-9.827012 -7.678775,-2.623937 -0.22205,2.034621 -0.248697,5.188609 -4.061032,4.786966 C 80.185331,94.317605 78.485554,89.581651 76.74557,85.764286 72.745647,76.988824 61.22369,48.49233 61.22369,48.49233 l 6.187927,-5.791197 0.299512,-6.854065 -8.297933,7.634098 c 0,0 -2.434059,-8.297933 -11.506466,-7.966015 -9.072405,0.331917 -11.06391,5.421315 -11.06391,8.961767 0,3.540452 3.168352,5.224948 5.753234,5.200039 6.094512,-0.05873 -1e-6,-8.51921 6.195789,-8.74049 4.42827,-0.158154 6.417067,5.863872 6.417067,5.863872 z" style="fill:#000000;stroke:none;stroke-width:1.875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"></path>`,
+				"leftc": `<path d="m 33.75,78.75 v 9.375 c 0,0 8.908206,6.407337 20.158206,6.407337 11.25,0 31.405598,-6.563804 31.562065,-32.816412 C 85.60437,39.216325 72.501739,27.186196 53.751739,27.186196 38.751739,27.186196 33.75,33.75 33.75,33.75 v 9.375 c 0,0 8.595271,-8.123262 19.845271,-8.123262 11.25,0 22.497392,8.279729 22.497392,27.029729 0,18.75 -11.247392,24.531468 -22.497392,24.531468 C 42.345271,86.562935 33.75,78.75 33.75,78.75 Z" style="fill:#000000;stroke:#000000;stroke-width:1.875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"></path>
+				<rect x="51.25" y="55.875" height="11" width="9" style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.39875;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">`,
+					"rightc": `<path d="m 85.471286,78.75 v 9.375 c 0,0 -8.908206,6.407337 -20.158206,6.407337 -11.25,0 -31.405598,-6.563804 -31.562065,-32.816412 -0.134099,-22.4996 12.968532,-34.529729 31.718532,-34.529729 15,0 20.001739,6.563804 20.001739,6.563804 v 9.375 c 0,0 -8.595271,-8.123262 -19.845271,-8.123262 -11.25,0 -22.497392,8.279729 -22.497392,27.029729 0,18.75 11.247392,24.531468 22.497392,24.531468 11.25,0 19.845271,-7.812935 19.845271,-7.812935 z" style="fill:#000000;stroke:#000000;stroke-width:1.875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"></path>
+					<rect x="63" y="55.875" height="11" width="9" style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.39875;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">`,
+						"cursive": `<path d="M 60.391522,38.701172 C 62.576198,37.95998 61.859251,35.867511 60,35.625 54.609375,34.921875 30,37.5 30,65.625 30,93.75 54.727333,97.892752 60,97.5 68.649693,96.855699 92.28932,93.169951 92.28932,66.919951 92.28932,40.669951 76.875,39.375 75,39.375 73.125,39.375 55.338495,39.33357 55.338495,65.583568 55.338495,91.833568 75,97.5 80.625,97.5 c 7.96875,0 13.670728,-3.315467 14.440667,-5.852876 1.750704,-5.769612 -3.348713,-5.365091 -4.827232,-1.864842 0,0 -2.34781,3.616156 -9.84781,1.741156 C 72.890625,89.648438 65.625,75 65.625,67.5 c 0,-7.5 0,-22.5 7.5,-22.5 7.5,0 9.375,7.5 9.375,18.75 0,11.25 -5.625,22.5 -9.375,24.375 C 69.375,90 56.601562,95.15625 49.101562,87.65625 41.601562,80.15625 36.950397,58.346383 45,48.75 54.36155,37.589572 60.391522,38.701172 60.391522,38.701172 Z" style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"></path>`,
+						"bt": `<path d="m 20.515625,52.002287 v -0.486662 h 2 2 V 39.5 27.484375 h -2.461282 -2.461282 l -0.499311,2 -0.499311,2 H 17.555032 16.515625 V 28.5 25.515625 h 4 4 V 23.5 21.484375 h -2 -2 V 20.75 20.015625 H 28 35.484375 V 20.75 21.484375 h -2.5 -2.5 V 23.5 25.515625 h 4 4 V 28.5 31.484375 h -1.039407 -1.039407 l -0.499311,-2 -0.499311,-2 H 32.945657 30.484375 V 31 34.515625 l 0.882812,4.81e-4 c 0.95255,5.19e-4 2.470074,0.04227 3.398438,0.09351 5.937806,0.327714 9.749562,1.451468 11.785633,3.474555 1.060368,1.053606 1.668629,2.362261 1.887479,4.060857 0.02737,0.212421 0.05764,0.688563 0.06726,1.058095 0.0736,2.825405 -0.658372,4.846924 -2.246462,6.204187 -1.817437,1.553273 -4.801856,2.461487 -9.384538,2.85589 -0.721898,0.06213 -1.296475,0.09989 -2.484375,0.163259 -0.404974,0.0216 -3.074727,0.03938 -7.257813,0.04833 l -6.617187,0.01416 V 52.002287 Z M 34.0625,51.233908 c 4.575751,-0.241949 7.586922,-1.713721 8.823661,-4.312745 0.290042,-0.609527 0.46057,-1.200113 0.57277,-1.983663 0.06092,-0.425437 0.05165,-1.60279 -0.01612,-2.046875 -0.256453,-1.680569 -1.007628,-3.010317 -2.279016,-4.034368 -1.626033,-1.309703 -3.864913,-2.059382 -7.007547,-2.346446 -0.501677,-0.04583 -2.810938,-0.05594 -3.335938,-0.01462 l -0.335937,0.02644 v 7.291385 7.291385 l 0.08594,0.0165 c 0.612377,0.11756 2.345429,0.173638 3.492188,0.113002 z" style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.223;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;transform:scale(1.875);"></path>`,
+						"tracks": `<path d="m 44.882812,80.449219 -15.175781,-8.789063 6.738598,-11.635314 14.206427,8.227661 6.74262,-11.642259 -13.831185,-8.01034 6.536681,-11.286671 14.488152,8.390822 6.7853,-11.715952 10.788272,6.248034 -6.571807,11.347318 14.269955,8.264452 -6.512743,11.245336 -13.989414,-8.101977 -6.718386,11.600415 13.974505,8.093342 -6.72133,11.605498 -14.687038,-8.506007 -8.138869,14.053112 -10.773628,-6.304368 z" style="fill:#000000;stroke:none;stroke-width:1.875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"></path>`,
+						
+						}
+						columns = [
+						["balloon", "at", "upsidedowny", "squigglyn", "squidknife", "hookn", "leftc"],
+						["euro", "balloon", "leftc", "cursive", "hollowstar", "squigglyn", "questionmark"],
+						["copyright", "pumpkin", "cursive", "doublek", "meltedthree", "upsidedowny", "hollowstar"],
+						["six", "paragraph", "bt", "squidknife", "doublek", "questionmark", "smileyface"],
+						["pitchfork", "smileyface", "bt", "rightc", "paragraph", "dragon", "filledstar"],
+						["six", "euro", "tracks", "ae", "pitchfork", "nwithhat", "omega"]
+						];
+						buttonSize = 30;
+						buttonXOffset = 8;
+						buttonYOffset = 24;
+						constructor() {
+						super();
+						this.type = "keypad";
+						}
+						connectedCallback() {
+						super.connectedCallback();
+						this.columnIndex = Math.floor(Math.random() * this.columns.length);
+						let column = Array.from(this.columns[this.columnIndex]);
+						//shuffle the column
+						for (let i = column.length - 1; i > 0; i--) {
+						const j = Math.floor(Math.random() * (i + 1));
+						[column[i], column[j]] = [column[j], column[i]];
+						}
+						this.buttons = column.splice(0, 4);
+						// console.log(this.buttons)
+						// console.log(this.buttons)
+						// this.children[0].innerHTML += ``;
+						for (let x = 0; x < 2; x++) {
+						for (let y = 0; y < 2; y++) {
+						let button = this.buttons[x * 2 + y];
+						let wrapper = `<svg class='keypad-button ${button} ' viewbox='0 0 120 120' x='${x * this.buttonSize + this.buttonXOffset}' y='${y * this.buttonSize + this.buttonYOffset}' width='${this.buttonSize}' height='${this.buttonSize}'>`;
+							var svg = `<text x='3.3' y='12.3' style='font-family:sans-serif;'><tspan>${button}</tspan></text>`;
+							if (button in this.keyToSVG) {
+							svg = this.keyToSVG[button];
+							}
+							let boundingPath = `<path class='keypad-bounding' d="m 0,0 h 120 v 120 h -120 z" style="fill:beige;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"></path>`;
+							let buttonLed = `<rect class='keypad-led' x='40' y='3' width='40' height='7' style="stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"></rect>`;
+							let buttonElement = document.createRange().createContextualFragment(wrapper + boundingPath + buttonLed + svg + "</svg>");
+						this.children[0].appendChild(buttonElement);
+						}
+						}
+						this.querySelectorAll(".keypad-button").forEach(button => {
+						button.addEventListener("click", () => {
+						this.pressButton(button);
+						});
+						});
+						this.buttons = this.columns[this.columnIndex].filter(x => (this.buttons.includes(x)));
+						
+						}
+						
+						pressButton(button) {
+						// console.log(button);
+						// console.log(this.buttons)
+						if (button.classList.contains("pressed-right")) return;
+						if (button.classList.contains(this.buttons[0])) {
+						
+						this.buttons = this.buttons.filter(x => x !== this.buttons[0]);
+						
+						button.classList.add("pressed-right");
+						button.classList.remove("pressed-wrong");
+						if (this.buttons.length === 0) {
+						this.defuseModule();
+						}
+						} else {
+						button.classList.add("pressed-wrong");
+						this.strikeOut();
+						}
+						
+						}
+						}
+						customElements.define("keypad-module", KeypadModule);
+						
+						class SimonSaysModule extends BombModule {
+						mappingTableVowels = [
+						{ r: "b", b: "r", g: "y", y: "g" },
+						{ r: "y", b: "g", g: "b", y: "r" },
+						{ r: "g", b: "r", g: "y", y: "b" }
+						]
+						mappingTableNoVowels = [
+						{ r: "b", b: "y", g: "g", y: "r" },
+						{ r: "r", b: "b", g: "y", y: "g" },
+						{ r: "y", b: "g", g: "b", y: "r" }
+						]
+						constructor() {
+						super();
+						this.type = "simon-says";
+						this.buttonIntervals = {
+						r: undefined,
+						b: undefined,
+						g: undefined,
+						y: undefined
+						}
+						}
+						connectedCallback() {
+						super.connectedCallback();
+						this.children[0].innerHTML += ``;
+						
+						}
+						flashButton(buttonColor) {
+						
+						}
+						}
+						customElements.define("simon-says-module", SimonSaysModule);
+						//#region Edgework
+						class SerialNumber extends HTMLElement {
+						constructor() {
+						super();
+						this.attachShadow({ mode: 'open' });
+						}
+						connectedCallback() {
+						this.shadowRoot.innerHTML = `
+						<div class="serial-number">
+							<h3>SERIAL:${this?.parentNode?.parentNode?.serial}</h2>
+						</div>
+						`;
+						}
+						}
+						customElements.define('serial-number', SerialNumber);
+						
+						class Battery extends HTMLElement {
+						constructor() {
+						super();
+						this.attachShadow({ mode: 'open' });
+						}
+						connectedCallback() {
+						this.batteryType = this.getAttribute("value");
+						if (this.batteryType === "AA") {
+						this.shadowRoot.innerHTML = ` AA`;
+						} else if (this.batteryType === "D") {
+						this.shadowRoot.innerHTML = ` D`;
+						}
+						}
+						}
+						customElements.define('ktane-battery', Battery);
+						
+						class Indicator extends HTMLElement {
+						constructor() {
+						super();
+						this.attachShadow({ mode: 'open' });
+						}
+						connectedCallback() {
+						this.label = this.getAttribute("value");
+						this.lit = this.getAttribute("lit") === "on";
+						this.shadowRoot.innerHTML = `
+						<svg class="indicator" viewbox="0 0 55 20" x="0" y="0" width="55" height="20">
+							<rect class="indicator-background" x="0" y="0" width="55" height="20" style="fill:gray;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"></rect>
+							<text x="2" y="16" style="font-family:sans-serif;">${this.label}</text>
+							<circle cx="45" cy="10" r="7" style="fill:${this.lit ? "white" : "black"}"></rect>
+							`;
+							}
+							}
+							customElements.define('ktane-indicator', Indicator);
+							
+							class Port extends HTMLElement {
+							constructor() {
+							super();
+							this.attachShadow({ mode: 'open' });
+							}
+							connectedCallback() {
+							this.type = this.getAttribute("value");
+							this.shadowRoot.innerHTML = `${this.type}`;
+							}
+							}
+							customElements.define('ktane-port', Port);
+							//#endregion
+						</script><style>
+							main {
+							overflow-x: visible !important;
+							position: relative;
+							}
+						</style>
+					</main>
+					
+					<footer>
+						<p>This website is still in development. Thanks for stopping by!</p>
+						<script>
+							function updateIframeTheme(selectedTheme) {
+							// Update all iframes on the page to match the main page theme
+							const iframes = document.querySelectorAll('iframe');
+							iframes.forEach(iframe => {
+							try {
+							// Check if iframe is loaded and accessible (same origin)
+							const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+							const iframeStylesheet = iframeDoc.getElementById('main-stylesheet');
+							
+							if (iframeStylesheet) {
+							if (selectedTheme === 'none') {
+							// No CSS option - disable stylesheet
+							iframeStylesheet.disabled = true;
+							} else {
+							// Enable stylesheet and set the href
+							iframeStylesheet.disabled = false;
+							iframeStylesheet.href = selectedTheme;
+							}
+							}
+							} catch (e) {
+							// Iframe might not be loaded yet or cross-origin, ignore
+							console.log('Could not access iframe stylesheet:', e.message);
+							}
+							});
+							}
+							
+							function switchStylesheet() {
+							const dropdown = document.getElementById('stylesheet-dropdown');
+							const stylesheet = document.getElementById('main-stylesheet');
+							const selectedTheme = dropdown.value;
+							
+							if (selectedTheme === 'none') {
+							// No CSS option - disable stylesheet
+							stylesheet.disabled = true;
+							} else {
+							// Enable stylesheet and set the href
+							stylesheet.disabled = false;
+							stylesheet.href = selectedTheme;
+							}
+							
+							// Update iframes to match
+							updateIframeTheme(selectedTheme);
+							
+							// Save user's preference in cookies
+							setCookie('preferred-theme', selectedTheme);
+							}
+							
+							// Set initial dropdown value on page load
+							document.addEventListener('DOMContentLoaded', function() {
+							const dropdown = document.getElementById('stylesheet-dropdown');
+							dropdown.addEventListener('change', switchStylesheet);
+							
+							// Set dropdown to match the already-applied theme
+							const savedTheme = getCookie('preferred-theme');
+							if (savedTheme) {
+							dropdown.value = savedTheme;
+							}
+							
+							// Update iframes after a short delay to ensure they're loaded
+							setTimeout(() => {
+							if (savedTheme) {
+							updateIframeTheme(savedTheme);
+							}
+							}, 500);
+							});
+						</script>
+					</footer>
+					
+				</body>
+				
+			</html>
