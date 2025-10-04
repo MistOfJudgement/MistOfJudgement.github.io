@@ -122,7 +122,7 @@ export const displayOnlyProjects: ProjectProps[] = [
 		descriptions: ["Automated Download tool for DTXMania files", "Typescript", "Electron"],
 		links: [
 			{
-				href: "github.com/MistOfJudgement/dtxdownload",
+				href: "https://github.com/MistOfJudgement/dtxdownload",
 				label: "Github Repo",
 			},
 		],
