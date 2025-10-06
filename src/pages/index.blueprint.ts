@@ -118,20 +118,6 @@ export const displayOnlyProjects: ProjectProps[] = [
 		},
 	},
 	{
-		title: "Dtx Download",
-		descriptions: ["Automated Download tool for DTXMania files", "Typescript", "Electron"],
-		links: [
-			{
-				href: "https://github.com/MistOfJudgement/dtxdownload",
-				label: "Github Repo",
-			},
-		],
-		image: {
-			src: "https://github.com/MistOfJudgement/dtxdownload/blob/main/docs/images/dtx-main-interface-selected.png?raw=true",
-			alt: "Dtx Download Screenshot",
-		}
-	},
-	{
 		title: "Playlist DL",
 		descriptions: ["Download Youtube Playlists", "Android", "Java", "Kinda just a wrapper around yt-dlp"],
 		links: [

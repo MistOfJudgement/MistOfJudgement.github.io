@@ -11,8 +11,9 @@ import { PageConfig } from "./architect";
 import type { ProjectProps } from "./components/Project";
 import type { NavItem } from "./components/Navigation";
 import { AnalogFrequencyDetectorPage } from "./pages/projects/analog_frequency.blueprint";
-import BombsPage from "./pages/bombs.blueprint";
+import {BombsPage} from "./pages/bombs.blueprint";
 import { WebDevProjectConfig as WebDevProjectPage } from "./pages/projects/web_dev_bombs.blueprint";
+import { DTXDownloadPageConfig } from "./pages/projects/dtx_download";
 const outputDir = "build";
 
 const testPage = `
@@ -147,7 +148,8 @@ const allPages = ([
 	BadAppleCelestePage,
 	AnalogFrequencyDetectorPage,
 	BombsPage,
-	WebDevProjectPage
+	WebDevProjectPage,
+	DTXDownloadPageConfig,
 ] as PageConfig<unknown>[]).sort((a, b) => sortOrder(a.navOrder, b.navOrder));
 
 // NEW WAY: All pages use the same clean pattern with dynamic navigation!

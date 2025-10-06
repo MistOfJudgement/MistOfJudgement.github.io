@@ -30,7 +30,7 @@ const Bombs: Blueprint = () => {
     return returnLink + modifiedContent;
 }
 
-const bombsPageConfig: PageConfig = {
+export const BombsPage: PageConfig = {
     title: 'Bombs',
     filename: 'bombs.html',
     contentBuilder: Bombs,
@@ -38,5 +38,3 @@ const bombsPageConfig: PageConfig = {
     showInNav: false,
 
 };
-
-export default bombsPageConfig;
