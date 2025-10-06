@@ -77,5 +77,6 @@ export const WebDevProjectConfig: PageConfig = {
 			},
 		],
 		image: { src: "static/img/bomb_preview.png", alt: "Web Dev Project Screenshot" },
+		projectPageHref: "./web_dev_project.html"
 	},
 };
