@@ -100,7 +100,8 @@ export const DTXDownloadPageConfig: PageConfig<DTXDownloadPageProps> = {
 		image: {
 			src: "https://github.com/MistOfJudgement/dtxdownload/blob/main/docs/images/dtx-main-interface-selected.png?raw=true",
 			alt: "Dtx Download Screenshot",
-		}
+        },
+        projectPageHref: "./dtxdownload.html",
 	},
 
 };
