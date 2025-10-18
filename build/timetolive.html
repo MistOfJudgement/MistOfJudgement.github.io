@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Time to Live</title>
+		<script>
+			// Cookie helper functions
+			function setCookie(name, value, days = 365) {
+			const expires = new Date(Date.now() + days * 864e5).toUTCString();
+			document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
+			}
+			
+			function getCookie(name) {
+			return document.cookie.split('; ').reduce((r, v) => {
+			const parts = v.split('=');
+			return parts[0] === name ? decodeURIComponent(parts[1]) : r;
+			}, '');
+			}
+			
+			// Apply saved theme immediately to prevent flicker
+			const savedTheme = getCookie('preferred-theme');
+			if (savedTheme) {
+			if (savedTheme === 'none') {
+			// No CSS - we'll disable it after the link loads
+			document.write('<link id="main-stylesheet" rel="stylesheet" href="./static/clean.css" disabled />');
+			} else {
+			document.write('<link id="main-stylesheet" rel="stylesheet" href="' + savedTheme + '" />');
+			}
+			} else {
+			document.write('<link id="main-stylesheet" rel="stylesheet" href="./static/clean.css" />');
+			}
+		</script>
+	</head>
+	
+	<body>
+		<header>
+			<h1>Time to Live</h1>
+		</header>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><span>Projects</span>
+					<ul>
+						<li><a href="website.html">Website</a></li>
+						<li><a href="analog_frequency_detector.html">Analog Frequency Detector</a></li>
+						<li><a href="bad_apple_celeste.html">Bad Apple Celeste</a></li>
+						<li><a href="bad_apple_terminal.html">Bad Apple Terminal</a></li>
+						<li><a href="web_dev_project.html">Web Dev Project</a></li>
+						<li><a href="dtxdownload.html">DTX Downloader</a></li>
+					</ul>
+				</li>
+				<li><a href="about.html">About</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+			<div class="theme-selector">
+				<label for="stylesheet-dropdown">Theme:</label>
+				<select id="stylesheet-dropdown" onchange="switchStylesheet()">
+					<option value="./static/clean.css">Clean (Original)</option>
+					<option value="./static/modern.css">Modern Dark</option>
+					<option value="">No CSS</option>
+				</select>
+			</div>
+		</nav>
+		<main>
+			
+			
+			<p><a href="https://mistofjudgement.itch.io/time-to-live">Itch.io Page</a></p>
+			
+			<p><a href="https://github.com/MistOfJudgement/time-to-live">Github Repo</a></p>
+			
+			<h2>Problem & Purpose</h2>
+			<p>This whole project was made for the 2025 Fall Jamfest Game Jam hosted by GADIG, a student run game studio at George Mason.
+				The theme here was "Mixed Signals" and I had 3 days to create a game. I ended up making a multiplayer game about secretly passing
+				around a hidden packet. The true purpose of this project was to do something with AWS as the end of my free tier was coming up, although
+			I still ended up getting charged for some reason.</p>
+			
+			<h2>Technical Details</h2>
+			<p>I wanted this to be a project I could just share a link to, so I made it as a web app with React and express. 
+				There is one main express route to the app file and an additional route for a debug page. I supplimented the main page
+				with websocket connections using the Socket.io library. Most of the time was honestly spent creating the lobby system which
+				is still really cool. I didn't spend too much time architecting the project so I couldn't segment the codebase as much as I wanted.
+				I might try and create a more robust lobby library at a later point.
+				
+				The actual gameplay follows the same websocket system as the lobby. Each player recieves their own information based on their role and
+				if they have the packet. I won't really go over the gameplay here but I try and explain a bit on the <a href="https://mistofjudgement.itch.io/time-to-live">Itch.io Page</a>.</p>
+			
+			<p>If you are interested in the actual code, please go checkout the <a href="https://github.com/MistOfJudgement/time-to-live">Github Repo</a> as I think compared to some of my
+				other gamejams, it feels a lot cleaner. 
+				
+			</main>
+			
+			<footer>
+				<p>This website is still in development. Thanks for stopping by!</p>
+				<script>
+					function updateIframeTheme(selectedTheme) {
+					// Update all iframes on the page to match the main page theme
+					const iframes = document.querySelectorAll('iframe');
+					iframes.forEach(iframe => {
+					try {
+					// Check if iframe is loaded and accessible (same origin)
+					const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+					const iframeStylesheet = iframeDoc.getElementById('main-stylesheet');
+					
+					if (iframeStylesheet) {
+					if (selectedTheme === 'none') {
+					// No CSS option - disable stylesheet
+					iframeStylesheet.disabled = true;
+					} else {
+					// Enable stylesheet and set the href
+					iframeStylesheet.disabled = false;
+					iframeStylesheet.href = selectedTheme;
+					}
+					}
+					} catch (e) {
+					// Iframe might not be loaded yet or cross-origin, ignore
+					console.log('Could not access iframe stylesheet:', e.message);
+					}
+					});
+					}
+					
+					function switchStylesheet() {
+					const dropdown = document.getElementById('stylesheet-dropdown');
+					const stylesheet = document.getElementById('main-stylesheet');
+					const selectedTheme = dropdown.value;
+					
+					if (selectedTheme === 'none') {
+					// No CSS option - disable stylesheet
+					stylesheet.disabled = true;
+					} else {
+					// Enable stylesheet and set the href
+					stylesheet.disabled = false;
+					stylesheet.href = selectedTheme;
+					}
+					
+					// Update iframes to match
+					updateIframeTheme(selectedTheme);
+					
+					// Save user's preference in cookies
+					setCookie('preferred-theme', selectedTheme);
+					}
+					
+					// Set initial dropdown value on page load
+					document.addEventListener('DOMContentLoaded', function() {
+					const dropdown = document.getElementById('stylesheet-dropdown');
+					dropdown.addEventListener('change', switchStylesheet);
+					
+					// Set dropdown to match the already-applied theme
+					const savedTheme = getCookie('preferred-theme');
+					if (savedTheme) {
+					dropdown.value = savedTheme;
+					}
+					
+					// Update iframes after a short delay to ensure they're loaded
+					setTimeout(() => {
+					if (savedTheme) {
+					updateIframeTheme(savedTheme);
+					}
+					}, 500);
+					});
+				</script>
+			</footer>
+			
+		</body>
+		
+	</html>

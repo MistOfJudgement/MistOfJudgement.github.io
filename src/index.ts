@@ -11,10 +11,27 @@ import { PageConfig } from "./architect";
 import type { ProjectProps } from "./components/Project";
 import type { NavItem } from "./components/Navigation";
 import { AnalogFrequencyDetectorPage } from "./pages/projects/analog_frequency.blueprint";
-import {BombsPage} from "./pages/bombs.blueprint";
+import { BombsPage } from "./pages/bombs.blueprint";
 import { WebDevProjectConfig as WebDevProjectPage } from "./pages/projects/web_dev_bombs.blueprint";
 import { DTXDownloadPageConfig } from "./pages/projects/dtx_download";
+import { TimeToLivePage } from "./pages/projects/time_to_live.blueprint";
 const outputDir = "build";
+// Collect all pages - using type assertion for mixed page types
+const allPages = (
+	[
+		IndexPage,
+		AboutPage,
+		ContactPage,
+		WebsitePage,
+		BadApplePage,
+		BadAppleCelestePage,
+		AnalogFrequencyDetectorPage,
+		BombsPage,
+		WebDevProjectPage,
+		DTXDownloadPageConfig,
+		TimeToLivePage,
+	] as PageConfig<unknown>[]
+).sort((a, b) => sortOrder(a.navOrder, b.navOrder));
 
 const testPage = `
 <!DOCTYPE html>
@@ -137,20 +154,6 @@ function buildStandardPage(
 }
 setupBuildDirectory();
 writePage("test.html", testPage);
-
-// Collect all pages - using type assertion for mixed page types
-const allPages = ([
-	IndexPage,
-	AboutPage,
-	ContactPage,
-	WebsitePage,
-	BadApplePage,
-	BadAppleCelestePage,
-	AnalogFrequencyDetectorPage,
-	BombsPage,
-	WebDevProjectPage,
-	DTXDownloadPageConfig,
-] as PageConfig<unknown>[]).sort((a, b) => sortOrder(a.navOrder, b.navOrder));
 
 // NEW WAY: All pages use the same clean pattern with dynamic navigation!
 allPages.forEach((page) => {
