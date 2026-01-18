@@ -8,7 +8,7 @@ import { Project } from "../components/Project";
 const indexData = {
 	name: "Tushar Rangaswamy",
 	description:
-		"I am a Computer Scientist currently studying at George Mason University. No concentration, no specialty, learning as much as I can.",
+		"I am a Software Engineer. No concentration, no specialty, learning as much as I can.",
 	links: [
 		{ href: "https://github.com/MistOfJudgement", label: "GitHub" },
 		{ href: "https://www.youtube.com/@tusharrangaswamy5910", label: "Youtube" },

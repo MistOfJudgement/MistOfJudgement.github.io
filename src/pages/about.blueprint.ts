@@ -16,7 +16,7 @@ const AboutContent: Blueprint<AboutData> = (props) => {
         
         <section class="education">
             <h3>Education</h3>
-            <p>Currently studying at ${props.school}</p>
+            <p>Studied at ${props.school}</p>
         </section>
         
         <section class="interests">
@@ -32,7 +32,7 @@ const aboutData: AboutData = {
 	name: "Tushar Rangaswamy",
 	school: "George Mason University",
 	interests: ["Software Engineering", "Video Games"],
-	bio: "I am a Computer Scientist currently studying at George Mason University. No concentration, no specialty, learning as much as I can.",
+	bio: "I am currently employed as a Software Developer. I don't really have preferences for what tech stacks I work with as long as it makes sense for the project.",
 };
 
 // Export complete page configuration
